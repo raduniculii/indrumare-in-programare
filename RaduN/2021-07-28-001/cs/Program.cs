@@ -6,7 +6,7 @@ namespace test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("C# merge!");
+            Console.WriteLine("Conflict cu Radu");
         }
     }
 }
