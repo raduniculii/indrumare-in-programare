@@ -1,0 +1,24 @@
+const readLine = require("./readLine");
+
+
+console.log("Acum vom lucra la generarea unui cod random pentru a determina castigatorii unui concurs");
+console.log("La concurs au participat 550 de oameni, iar fiecaruia i-a fost atribuit un numar");
+console.log("Numerele extrase mai jos vor fi cei 5 castigatori de astazi");
+
+console.log("Primul castigator este:");
+var nrCalc = Math.round(Math.random() * 550); 
+console.log(nrCalc); 
+console.log("Participantul cu numarul de mai sus, te rugam sa-ti scrii numele");
+readLine(); 
+
+var nr = 0;
+while (nr<5) {
+    console.log("Un castigator este:");
+    var nrCalc = Math.round(Math.random() * 550); 
+    console.log(nrCalc); 
+    console.log("Participantul cu numarul de mai sus, te rugam sa-ti scrii numele");
+    readLine(); 
+    nr = nr + 1;
+}
+
+console.log("Felicitari tuturor participantilor! Ne revedem maine cu o noua serie de castigatori!")
