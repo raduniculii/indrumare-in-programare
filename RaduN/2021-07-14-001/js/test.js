@@ -10,6 +10,33 @@ var primaDataIn_Dormitor = "da";
 var primaDataIn_Sufragerie = "da";
 var primaDataIn_Balcon = "da";
 
+var listaDeNume = ["John", "William", "Catherine", "Sam"];
+
+var index = 0;
+
+listaDeNume.splice(1, 1);
+console.log(`Cine e la 1? ${listaDeNume[1]}`);
+
+while(index < listaDeNume.length){
+    console.log(listaDeNume[index]);
+    index = index + 1;
+}
+return;
+function afiseazaMesajDeIntampinare(nume, varsta) {
+    console.log(`Buna ${nume} ai ${varsta} ani`);
+}
+
+function creazaMesajDeIntampinare(nume, varsta) {
+    return `Buna ${nume} ai ${varsta} ani.`;
+}
+
+console.log(
+    creazaMesajDeIntampinare("Maria", "20")
+    + creazaMesajDeIntampinare("Ioana", "21")
+);
+
+return;
+
 while(pozitieCurenta != "afara"){
     if(pozitieCurenta == "hol"){
         if(primaDataIn_Hol == "da"){

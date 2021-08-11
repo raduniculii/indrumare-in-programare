@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace test
 {
@@ -8,7 +9,54 @@ namespace test
             System.Console.WriteLine($@"salut {nume} ai {varsta} ani.");
         }
 
+        static string functieTestCuReturn(string nume, int varsta){
+            //Since 'functieTestCuReturn' returns void, a return keyword must not be followed by an object expression
+
+            return $@"salut {nume} ai {varsta} ani.";
+        }
+
+        static int citesteNumar(string mesaj, int min, int max)
+        {
+            int nrCitit = 0;
+
+            System.Console.WriteLine(mesaj);
+            nrCitit = int.Parse(Console.ReadLine());
+
+            while(nrCitit < min || nrCitit > max)
+            {
+                System.Console.WriteLine($@"Numarul trebuie sa fie intre {min} si {max}");
+                System.Console.WriteLine(mesaj);
+                nrCitit = int.Parse(Console.ReadLine());
+            }
+
+            return nrCitit;
+        }
+
+        //static returnType numeFc(tipParam_1 numeParam1, ...){
+        //    comenzile din functie
+        //}
+
         static void Main(string[] args)
+        {
+            List<string> listaDeNume = new List<string>(){ "John", "William", "Catherine", "Sam" };
+
+            // listaDeNume.Add("John");
+            // listaDeNume.Add("William");
+            // listaDeNume.Add("Catherine");
+            // listaDeNume.Add("Sam");
+
+            int index = 0;
+
+            listaDeNume.RemoveAt(1);
+            Console.WriteLine($@"Cine e la 1? {listaDeNume[1]}");
+
+            while(index < listaDeNume.Count){
+                Console.WriteLine(listaDeNume[index]);
+                index = index + 1;
+            }
+        }
+
+        static void VechiulMain()
         {
             var pozitieCurenta = "hol";
             var pozitieNoua = "";
@@ -50,8 +98,6 @@ namespace test
             functieTest("Gigi", 12);
             functieTest("Petre", 16);
             functieTest(varsta: 17, nume: "Maria");
-
-            return;
 
             while(pozitieCurenta != "afara"){
                 if(pozitieCurenta == "hol"){

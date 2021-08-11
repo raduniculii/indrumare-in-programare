@@ -1,3 +1,18 @@
+import sys
+
+listaDeNume = ["John", "William", "Catherine", "Sam"]
+
+index = 0
+
+del listaDeNume[1]
+print(f"Cine e la 1? {listaDeNume[1]}")
+
+while(index < len(listaDeNume)):
+    print(listaDeNume[index])
+    index = index + 1
+
+sys.exit()
+
 pozitieCurenta = "hol"
 pozitieNoua = ""
 areCheie = False
@@ -13,7 +28,7 @@ def afiseazaCevaurile(nume, varsta):
         print(f"Inteleg ca ai {varsta} ani")
     else:
         print("Buna " + nume)
-        print(f"Inteleg ca ai {varsta} ani")
+        print(f"Inteleg ca ai {varsta} ani, si esti major")
 
 def oriZece(numar):
     return numar * 10
@@ -74,7 +89,6 @@ print(compuneMesaj(cineva, 70))
 # print(int("12") + 13)
 # print("12" + "13")
 
-import sys
 sys.exit()
 
 while pozitieCurenta != "afara":
