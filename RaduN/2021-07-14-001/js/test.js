@@ -1,7 +1,7 @@
+const { Console } = require("console");
 const readLine = require("./readLine");
 
 var pozitieCurenta = "hol";
-var pozitieNoua = "";
 var areCheie = "nu";
 
 var primaDataIn_Hol = "da";
@@ -10,32 +10,31 @@ var primaDataIn_Dormitor = "da";
 var primaDataIn_Sufragerie = "da";
 var primaDataIn_Balcon = "da";
 
-var listaDeNume = ["John", "William", "Catherine", "Sam"];
+function oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni)
+{
+    console.log("Ai urmatoarele optiuni:");
+    var index = 0;
+    while(index < listaDeOptiuni.length)
+    {
+        console.log("   [" + (index + 1).toString() + "] " + listaDeOptiuni[index]);
 
-var index = 0;
+        index = index + 1;
+    }
 
-listaDeNume.splice(1, 1);
-console.log(`Cine e la 1? ${listaDeNume[1]}`);
+    console.log(`Ce alegi (1-${listaDeOptiuni.length})?`);
 
-while(index < listaDeNume.length){
-    console.log(listaDeNume[index]);
-    index = index + 1;
+    var alegereUtilizator = "";
+    while(alegereUtilizator == ""){
+        alegereUtilizator = +readLine();
+
+        if(isNaN(alegereUtilizator) || alegereUtilizator < 1 || alegereUtilizator > listaDeOptiuni.length || alegereUtilizator % 1 !== 0){
+            console.log(`Optiune inexistenta, te rog reintrodu o optiune de la 1 la ${listaDeOptiuni.length}.`);
+            alegereUtilizator = "";
+        }
+    }
+
+    return alegereUtilizator - 1;
 }
-return;
-function afiseazaMesajDeIntampinare(nume, varsta) {
-    console.log(`Buna ${nume} ai ${varsta} ani`);
-}
-
-function creazaMesajDeIntampinare(nume, varsta) {
-    return `Buna ${nume} ai ${varsta} ani.`;
-}
-
-console.log(
-    creazaMesajDeIntampinare("Maria", "20")
-    + creazaMesajDeIntampinare("Ioana", "21")
-);
-
-return;
 
 while(pozitieCurenta != "afara"){
     if(pozitieCurenta == "hol"){
@@ -48,39 +47,27 @@ while(pozitieCurenta != "afara"){
             console.log(`Esti in hol.`);
         }
 
-        console.log(`Ai urmatoarele optiuni:
-    [1] usa de intrare/iesire din apartament
-    [2] usa de la baie
-    [3] usa de la dormitor
-    [4] usa de la sufragerie
-Ce alegi(1-4)?`);
-    
-        pozitieNoua = "";
-        while(pozitieNoua == ""){
-            pozitieNoua = readLine();
+        var raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
+            "usa de intrare/iesire din apartament"
+            , "usa de la baie"
+            , "usa de la dormitor"
+            , "usa de la sufragerie"
+        ]);
 
-            if(pozitieNoua == "1"){
-                if(areCheie == "da"){
-                    pozitieCurenta = "afara";
-                }
-                else {
-                    console.log("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
-                    console.log("Va trebui sa incerci altceva.");
-                }
-            }
-            else if(pozitieNoua == "2"){
-                pozitieCurenta = "baie";
-            }
-            else if(pozitieNoua == "3"){
-                pozitieCurenta = "dormitor";
-            }
-            else if(pozitieNoua == "4"){
-                pozitieCurenta = "sufragerie";
-            }
-            else {
-                console.log("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 4.");
-                pozitieNoua = "";
-            }
+        var listaPozitiiUrmatoare = [
+            "afara" //0
+            , "baie" //1
+            , "dormitor" //2
+            , "sufragerie" //3
+        ];
+
+        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
+        
+        if(pozitieCurenta == "afara" && areCheie != "da")
+        {
+            console.log("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
+            console.log("Va trebui sa incerci altceva.");
+            pozitieCurenta = "hol";
         }
     }
     else if(pozitieCurenta == "baie"){
@@ -108,26 +95,17 @@ Se arde becul si ai ramas in intuneric.
             console.log(`Esti in dormitor.`);
         }
 
-        console.log(`Ai urmatoarele optiuni:
-    [1] usa catre hol
-    [2] usa catre balcon
-Ce alegi(1-2)?`);
-    
-        pozitieNoua = "";
-        while(pozitieNoua == ""){
-            pozitieNoua = readLine();
+        var raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
+            "usa catre hol"
+            , "usa catre balcon"
+        ]);
 
-            if(pozitieNoua == "1"){
-                pozitieCurenta = "hol";
-            }
-            else if(pozitieNoua == "2"){
-                pozitieCurenta = "balcon";
-            }
-            else {
-                console.log("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                pozitieNoua = "";
-            }
-        }
+        var listaPozitiiUrmatoare = [
+            "hol" //0
+            , "balcon" //1
+        ];
+
+        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
     }
     else if(pozitieCurenta == "sufragerie"){
         if(primaDataIn_Sufragerie == "da"){
@@ -139,26 +117,17 @@ Ce alegi(1-2)?`);
             console.log(`Esti in sufragerie.`);
         }
 
-        console.log(`Ai urmatoarele optiuni:
-    [1] usa catre hol
-    [2] usa catre balcon
-Ce alegi(1-2)?`);
-    
-        pozitieNoua = "";
-        while(pozitieNoua == ""){
-            pozitieNoua = readLine();
+        var raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
+            "usa catre hol"
+            , "usa catre balcon"
+        ]);
 
-            if(pozitieNoua == "1"){
-                pozitieCurenta = "hol";
-            }
-            else if(pozitieNoua == "2"){
-                pozitieCurenta = "balcon";
-            }
-            else {
-                console.log("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                pozitieNoua = "";
-            }
-        }
+        var listaPozitiiUrmatoare = [
+            "hol" //0
+            , "balcon" //1
+        ];
+
+        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
     }
     else if(pozitieCurenta == "balcon"){
         if(primaDataIn_Balcon == "da"){
@@ -170,40 +139,33 @@ Ce alegi(1-2)?`);
             console.log(`Esti in balcon.`);
         }
 
+        var raspunsUtilizator = 0;
+        
         if(areCheie == "da"){
-            console.log(`Ai urmatoarele optiuni:
-    [1] usa catre dormitor
-    [2] usa catre sufragerie
-Ce alegi(1-2)?`);
+            raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
+                "usa catre dormitor"
+                , "usa catre sufragerie"
+            ]);
         }
         else {
-            console.log(`Pe jos se vede o cheie ruginita
-Ai urmatoarele optiuni:
-    [1] usa catre dormitor
-    [2] usa catre sufragerie
-    [3] ridica cheia de pe jos
-Ce alegi(1-3)?`);
+            raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
+                "usa catre dormitor"
+                , "usa catre sufragerie"
+                , "ridica cheia de pe jos"
+            ]);
         }
-    
-        pozitieNoua = "";
-        while(pozitieNoua == ""){
-            pozitieNoua = readLine();
 
-            if(pozitieNoua == "1"){
-                pozitieCurenta = "dormitor";
-            }
-            else if(pozitieNoua == "2"){
-                pozitieCurenta = "sufragerie";
-            }
-            else if(pozitieNoua == "3" && areCheie != "da"){
-                pozitieCurenta = "balcon";
-                console.log("Ai luat cheia, acum poti deschide ceva.");
-                areCheie = "da";
-            }
-            else {
-                console.log("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                pozitieNoua = "";
-            }
+        var listaPozitiiUrmatoare = [
+            "dormitor" //0
+            , "sufragerie" //1
+            , "balcon" //2
+        ];
+
+        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
+
+        if(pozitieCurenta == "balcon"){
+            console.log("Ai luat cheia, acum poti deschide ceva.");
+            areCheie = "da";
         }
     }
 }
