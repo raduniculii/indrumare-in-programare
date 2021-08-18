@@ -1,1 +1,51 @@
-test Ionut
+import random
+
+Nr_initial_puncte_jucator1=167
+Nr_initial_puncte_jucator2=167
+Nr_puncte_ramase_jucator1=167
+Nr_puncte_ramase_jucator2=167
+Nr_incercari=1
+
+print("""Hai sa jucam o partida de table! 
+Introdu numele primului jucator:""")
+Numele_primului_jucator=input()
+print ("Introdu numele celui de-al doilea jucator:")
+Numele_al_doilea_jucator=input()
+print("""Mult succes amandurora! 
+Apasa Enter pentru a incepe jocul.""")
+input()
+
+while (Nr_puncte_ramase_jucator1 | Nr_puncte_ramase_jucator2) > 0:
+    zar1_jucator1=int(random.randint(1,6))
+    zar2_jucator1=int(random.randint(1,6))
+    if zar1_jucator1==zar2_jucator1:
+        zar3_jucator1=zar1_jucator1
+        zar4_jucator1=zar2_jucator1
+    else:
+        zar3_jucator1=0
+        zar4_jucator1=0
+    zar1_jucator2=int(random.randint(1,6))
+    zar2_jucator2=int(random.randint(1,6))
+    if zar1_jucator2==zar2_jucator2:
+        zar3_jucator2=zar1_jucator2
+        zar4_jucator2=zar2_jucator2
+    else:
+        zar3_jucator2=0
+        zar4_jucator2=0
+    print("Jucator 1, zar 1: " + str(zar1_jucator1) + ". Zar 2: " + str(zar2_jucator1))
+    print("Jucator 2, zar 1: " + str(zar1_jucator2) + ". Zar 2: " + str(zar2_jucator2))
+    print("Nr puncte ramase jucator 1: " + str(Nr_puncte_ramase_jucator1))
+    print("Nr puncte ramase jucator 2: " + str(Nr_puncte_ramase_jucator2))
+    print("Nr incercari curente: " + str(Nr_incercari))
+    Nr_puncte_intermediar_jucator1=int(Nr_puncte_ramase_jucator1-(zar1_jucator1+zar2_jucator1+zar3_jucator1+zar4_jucator1))
+    Nr_puncte_intermediar_jucator2=int(Nr_puncte_ramase_jucator2-(zar1_jucator2+zar2_jucator2+zar3_jucator2+zar4_jucator2))
+    Nr_puncte_ramase_jucator1=Nr_puncte_intermediar_jucator1
+    Nr_puncte_ramase_jucator2=Nr_puncte_intermediar_jucator2
+    Nr_incercari += 1
+
+if Nr_puncte_ramase_jucator1 < Nr_puncte_ramase_jucator2:
+    print(Numele_primului_jucator.upper() +" a castigat, felicitari!")
+elif Nr_puncte_ramase_jucator1 == Nr_puncte_ramase_jucator2:
+    print("Egalitate, felicitari amandurora.")
+else:
+    print(Numele_al_doilea_jucator.upper() + " a castigat, felicitari!")
