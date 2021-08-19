@@ -5,61 +5,47 @@ namespace test
 {
     class Program
     {
-        static void functieTest(string nume, int varsta){
-            System.Console.WriteLine($@"salut {nume} ai {varsta} ani.");
-        }
-
-        static string functieTestCuReturn(string nume, int varsta){
-            //Since 'functieTestCuReturn' returns void, a return keyword must not be followed by an object expression
-
-            return $@"salut {nume} ai {varsta} ani.";
-        }
-
-        static int citesteNumar(string mesaj, int min, int max)
+        //in C# specificam tipul returnat (in cazul nostru int) si tipul
+        //parametrilor, in cazul nostru o lista / un array de string-uri
+        static int oferaOptiuniSiPreiaRaspunsValid(string[] listaDeOptiuni)
         {
-            int nrCitit = 0;
-
-            System.Console.WriteLine(mesaj);
-            nrCitit = int.Parse(Console.ReadLine());
-
-            while(nrCitit < min || nrCitit > max)
+            Console.WriteLine("Ai urmatoarele optiuni:");
+            int index = 0;
+            while(index < listaDeOptiuni.Length)
             {
-                System.Console.WriteLine($@"Numarul trebuie sa fie intre {min} si {max}");
-                System.Console.WriteLine(mesaj);
-                nrCitit = int.Parse(Console.ReadLine());
+                Console.WriteLine("   [" + (index + 1).ToString() + "] " + listaDeOptiuni[index]);
+
+                index = index + 1;
             }
 
-            return nrCitit;
-        }
+            Console.WriteLine($@"Ce alegi (1-{listaDeOptiuni.Length})?");
 
-        //static returnType numeFc(tipParam_1 numeParam1, ...){
-        //    comenzile din functie
-        //}
+            string alegereUtilizator = "";
+            int nr = 0;
+            while(alegereUtilizator == ""){
+                alegereUtilizator = Console.ReadLine();
+                //int.TryParse incearca sa transforme un string in numar intreg si daca nu reuseste 
+                //lasa numarul 0 si returneaza valoarea booleana false
+                //de aceea am pus prima conditie (not intr.TryParse --- !int.TryParse), adica
+                //pe romaneste: daca nu poti transforma stringul in numar
+                //Daca a reusit transformarea, parametrul #2 (in cazul nostru nr) primeste in el valoarea
+                //citita (paranteza: cand vedeti cuvintele out sau ref inainte de parametri,
+                //inseamna ca functia va poate schimba variabila)
+                if(!int.TryParse(alegereUtilizator, out nr) || nr < 1 || nr > listaDeOptiuni.Length){
+                    Console.WriteLine($@"Optiune inexistenta, te rog reintrodu o optiune de la 1 la {listaDeOptiuni.Length}.");
+                    alegereUtilizator = "";
+                }
+            }
+
+            return nr - 1;
+        }
 
         static void Main(string[] args)
         {
-            List<string> listaDeNume = new List<string>(){ "John", "William", "Catherine", "Sam" };
-
-            // listaDeNume.Add("John");
-            // listaDeNume.Add("William");
-            // listaDeNume.Add("Catherine");
-            // listaDeNume.Add("Sam");
-
-            int index = 0;
-
-            listaDeNume.RemoveAt(1);
-            Console.WriteLine($@"Cine e la 1? {listaDeNume[1]}");
-
-            while(index < listaDeNume.Count){
-                Console.WriteLine(listaDeNume[index]);
-                index = index + 1;
-            }
-        }
-
-        static void VechiulMain()
-        {
-            var pozitieCurenta = "hol";
-            var pozitieNoua = "";
+            //in C# putem defini variabilele cu var si apoi sa le dam o valoare
+            //si compilatorul "ghiceste" tipul variabilei la fel ca in js sau python
+            //dar putem si sa le specificam direct tipul, cum ar fi string, bool, int, s.a.m.d.
+            string pozitieCurenta = "hol";
             bool areCheie = false;
 
             bool primaDataIn_Hol = true;
@@ -68,204 +54,137 @@ namespace test
             bool primaDataIn_Sufragerie = true;
             bool primaDataIn_Balcon = true;
 
-            Random rnd = new Random();
-            int option = rnd.Next(1, 6);
-            string textulGhicitoarei = "";
-
-            switch (option)
-            {
-                case 1:
-                    textulGhicitoarei = "Traiti-ar fmilia";
-                    break;
-                case 2:
-                    textulGhicitoarei = "O sa ai copii frumosi";
-                    break;
-                case 3:
-                    textulGhicitoarei = "Viata e grea, da' trece";
-                    break;
-                case 4:
-                    textulGhicitoarei = "4 ca la teatru";
-                    break;
-                case 5:
-                    textulGhicitoarei = "zzz";
-                    break;
-                default:
-                    break;
-            }
-
-            Console.WriteLine($@"Mama oOmida zice: {textulGhicitoarei}");
-
-            functieTest("Gigi", 12);
-            functieTest("Petre", 16);
-            functieTest(varsta: 17, nume: "Maria");
-
             while(pozitieCurenta != "afara"){
                 if(pozitieCurenta == "hol"){
-                    if(primaDataIn_Hol == true){
-                        Console.WriteLine("Esti in holul unei case din care trebuie neaparat sa iesi.");
+                    if(primaDataIn_Hol){
+                        Console.WriteLine($@"Esti in holul unei case din care trebuie neaparat sa iesi.");
 
                         primaDataIn_Hol = false;
                     }
                     else {
-                        Console.WriteLine("Esti in hol.");
+                        Console.WriteLine($@"Esti in hol.");
                     }
 
-                    Console.WriteLine($@"Ai urmatoarele optiuni:
-    [1] usa de intrare/iesire din apartament
-    [2] usa de la baie
-    [3] usa de la dormitor
-    [4] usa de la sufragerie
-Ce alegi(1-4)?");
-                
-                    pozitieNoua = "";
-                    while(pozitieNoua == ""){
-                        pozitieNoua = Console.ReadLine();
+                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(new string[]{
+                        "usa de intrare/iesire din apartament"
+                        , "usa de la baie"
+                        , "usa de la dormitor"
+                        , "usa de la sufragerie"
+                    });
 
-                        if(pozitieNoua == "1"){
-                            if(areCheie == true){
-                                pozitieCurenta = "afara";
-                            }
-                            else {
-                                Console.WriteLine("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
-                                Console.WriteLine("Va trebui sa incerci altceva.");
-                            }
-                        }
-                        else if(pozitieNoua == "2"){
-                            pozitieCurenta = "baie";
-                        }
-                        else if(pozitieNoua == "3"){
-                            pozitieCurenta = "dormitor";
-                        }
-                        else if(pozitieNoua == "4"){
-                            pozitieCurenta = "sufragerie";
-                        }
-                        else {
-                            Console.WriteLine("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 4.");
-                            pozitieNoua = "";
-                        }
+                    string[] listaPozitiiUrmatoare = new string[]{
+                        "afara" //0
+                        , "baie" //1
+                        , "dormitor" //2
+                        , "sufragerie" //3
+                    };
+
+                    pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
+                    
+                    //cum areCheie e boolean (adica true sau false), am inlocuit areCheie != "da" cu (nu areCheie, care in limbaj e !areCheie)
+                    if(pozitieCurenta == "afara" && !areCheie)
+                    {
+                        Console.WriteLine("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
+                        Console.WriteLine("Va trebui sa incerci altceva.");
+                        pozitieCurenta = "hol";
                     }
                 }
                 else if(pozitieCurenta == "baie"){
-                    if(primaDataIn_Baie == true){
+                    if(primaDataIn_Baie){
                         Console.WriteLine($@"Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
-Se arde becul si ai ramas in intuneric.
-");
+            Se arde becul si ai ramas in intuneric.
+            ");
 
                         primaDataIn_Baie = false;
                     }
                     else {
-                        Console.WriteLine("Esti in baie si e bezna.");
+                        Console.WriteLine($@"Esti in baie si e bezna.");
                     }
 
-                    Console.WriteLine("Nu ai nici o alta optiune decat sa te intorci in hol.");
+                    Console.WriteLine($@"Nu ai nici o alta optiune decat sa te intorci in hol.");
                     pozitieCurenta = "hol";
                 }
                 else if(pozitieCurenta == "dormitor"){
-                    if(primaDataIn_Dormitor == true){
-                        Console.WriteLine("Dormitorul arata sinistru.");
+                    if(primaDataIn_Dormitor){
+                        Console.WriteLine($@"Dormitorul arata sinistru.");
 
                         primaDataIn_Dormitor = false;
                     }
                     else {
-                        Console.WriteLine("Esti in dormitor.");
+                        Console.WriteLine($@"Esti in dormitor.");
                     }
 
-                    Console.WriteLine($@"Ai urmatoarele optiuni:
-    [1] usa catre hol
-    [2] usa catre balcon
-Ce alegi(1-2)?");
-                
-                    pozitieNoua = "";
-                    while(pozitieNoua == ""){
-                        pozitieNoua = Console.ReadLine();
+                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(new string[]{
+                        "usa catre hol"
+                        , "usa catre balcon"
+                    });
 
-                        if(pozitieNoua == "1"){
-                            pozitieCurenta = "hol";
-                        }
-                        else if(pozitieNoua == "2"){
-                            pozitieCurenta = "balcon";
-                        }
-                        else {
-                            Console.WriteLine("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                            pozitieNoua = "";
-                        }
-                    }
+                    string[] listaPozitiiUrmatoare = new string[]{
+                        "hol" //0
+                        , "balcon" //1
+                    };
+
+                    pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
                 }
                 else if(pozitieCurenta == "sufragerie"){
-                    if(primaDataIn_Sufragerie == true){
-                        Console.WriteLine("Sufrageria arata primitor, desi tu nu ai timp sa stai la TV.");
+                    if(primaDataIn_Sufragerie){
+                        Console.WriteLine($@"Sufrageria arata primitor, desi tu nu ai timp sa stai la TV.");
 
                         primaDataIn_Sufragerie = false;
                     }
                     else {
-                        Console.WriteLine("Esti in sufragerie.");
+                        Console.WriteLine($@"Esti in sufragerie.");
                     }
 
-                    Console.WriteLine($@"Ai urmatoarele optiuni:
-    [1] usa catre hol
-    [2] usa catre balcon
-Ce alegi(1-2)?");
-                
-                    pozitieNoua = "";
-                    while(pozitieNoua == ""){
-                        pozitieNoua = Console.ReadLine();
+                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(new string[]{
+                        "usa catre hol"
+                        , "usa catre balcon"
+                    });
 
-                        if(pozitieNoua == "1"){
-                            pozitieCurenta = "hol";
-                        }
-                        else if(pozitieNoua == "2"){
-                            pozitieCurenta = "balcon";
-                        }
-                        else {
-                            Console.WriteLine("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                            pozitieNoua = "";
-                        }
-                    }
+                    string[] listaPozitiiUrmatoare = new string[]{
+                        "hol" //0
+                        , "balcon" //1
+                    };
+
+                    pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
                 }
                 else if(pozitieCurenta == "balcon"){
-                    if(primaDataIn_Balcon == true){
-                        Console.WriteLine("Din balcon se vede afara. Esti la etajul 12.");
+                    if(primaDataIn_Balcon){
+                        Console.WriteLine($@"Din balcon se vede afara. Esti la etajul 12.");
 
                         primaDataIn_Balcon = false;
                     }
                     else {
-                        Console.WriteLine("Esti in balcon.");
+                        Console.WriteLine($@"Esti in balcon.");
                     }
 
-                    if(areCheie == true){
-                        Console.WriteLine($@"Ai urmatoarele optiuni:
-    [1] usa catre dormitor
-    [2] usa catre sufragerie
-Ce alegi(1-2)?");
+                    int raspunsUtilizator = 0;
+                    
+                    if(areCheie){
+                        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(new string[]{
+                            "usa catre dormitor"
+                            , "usa catre sufragerie"
+                        });
                     }
                     else {
-                        Console.WriteLine($@"Pe jos se vede o cheie ruginita
-Ai urmatoarele optiuni:
-    [1] usa catre dormitor
-    [2] usa catre sufragerie
-    [3] ridica cheia de pe jos
-Ce alegi(1-3)?");
+                        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(new string[]{
+                            "usa catre dormitor"
+                            , "usa catre sufragerie"
+                            , "ridica cheia de pe jos"
+                        });
                     }
-                
-                    pozitieNoua = "";
-                    while(pozitieNoua == ""){
-                        pozitieNoua = Console.ReadLine();
 
-                        if(pozitieNoua == "1"){
-                            pozitieCurenta = "dormitor";
-                        }
-                        else if(pozitieNoua == "2"){
-                            pozitieCurenta = "sufragerie";
-                        }
-                        else if(pozitieNoua == "3" && areCheie != true){
-                            pozitieCurenta = "balcon";
-                            Console.WriteLine("Ai luat cheia, acum poti deschide ceva.");
-                            areCheie = true;
-                        }
-                        else {
-                            Console.WriteLine("Optiune inexistenta, te rog reintrodu o optiune de la 1 la 2.");
-                            pozitieNoua = "";
-                        }
+                    string[] listaPozitiiUrmatoare = new string[]{
+                        "dormitor" //0
+                        , "sufragerie" //1
+                        , "balcon" //2
+                    };
+
+                    pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
+
+                    if(pozitieCurenta == "balcon"){
+                        Console.WriteLine("Ai luat cheia, acum poti deschide ceva.");
+                        areCheie = true;
                     }
                 }
             }

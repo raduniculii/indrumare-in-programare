@@ -1,14 +1,13 @@
-const { Console } = require("console");
 const readLine = require("./readLine");
 
 var pozitieCurenta = "hol";
-var areCheie = "nu";
+var areCheie = false;
 
-var primaDataIn_Hol = "da";
-var primaDataIn_Baie = "da";
-var primaDataIn_Dormitor = "da";
-var primaDataIn_Sufragerie = "da";
-var primaDataIn_Balcon = "da";
+var primaDataIn_Hol = true;
+var primaDataIn_Baie = true;
+var primaDataIn_Dormitor = true;
+var primaDataIn_Sufragerie = true;
+var primaDataIn_Balcon = true;
 
 function oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni)
 {
@@ -38,10 +37,10 @@ function oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni)
 
 while(pozitieCurenta != "afara"){
     if(pozitieCurenta == "hol"){
-        if(primaDataIn_Hol == "da"){
+        if(primaDataIn_Hol){
             console.log(`Esti in holul unei case din care trebuie neaparat sa iesi.`);
 
-            primaDataIn_Hol = "nu";
+            primaDataIn_Hol = false;
         }
         else {
             console.log(`Esti in hol.`);
@@ -63,7 +62,8 @@ while(pozitieCurenta != "afara"){
 
         pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
         
-        if(pozitieCurenta == "afara" && areCheie != "da")
+        //cum areCheie e boolean (adica true sau false), am inlocuit areCheie != "da" cu (nu areCheie, care in limbaj e !areCheie)
+        if(pozitieCurenta == "afara" && !areCheie)
         {
             console.log("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
             console.log("Va trebui sa incerci altceva.");
@@ -71,12 +71,12 @@ while(pozitieCurenta != "afara"){
         }
     }
     else if(pozitieCurenta == "baie"){
-        if(primaDataIn_Baie == "da"){
+        if(primaDataIn_Baie){
             console.log(`Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
 Se arde becul si ai ramas in intuneric.
 `);
 
-            primaDataIn_Baie = "nu";
+            primaDataIn_Baie = false;
         }
         else {
             console.log(`Esti in baie si e bezna.`);
@@ -86,10 +86,10 @@ Se arde becul si ai ramas in intuneric.
         pozitieCurenta = "hol";
     }
     else if(pozitieCurenta == "dormitor"){
-        if(primaDataIn_Dormitor == "da"){
+        if(primaDataIn_Dormitor){
             console.log(`Dormitorul arata sinistru.`);
 
-            primaDataIn_Dormitor = "nu";
+            primaDataIn_Dormitor = false;
         }
         else {
             console.log(`Esti in dormitor.`);
@@ -108,10 +108,10 @@ Se arde becul si ai ramas in intuneric.
         pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
     }
     else if(pozitieCurenta == "sufragerie"){
-        if(primaDataIn_Sufragerie == "da"){
+        if(primaDataIn_Sufragerie){
             console.log(`Sufrageria arata primitor, desi tu nu ai timp sa stai la TV.`);
 
-            primaDataIn_Sufragerie = "nu";
+            primaDataIn_Sufragerie = false;
         }
         else {
             console.log(`Esti in sufragerie.`);
@@ -130,10 +130,10 @@ Se arde becul si ai ramas in intuneric.
         pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator];
     }
     else if(pozitieCurenta == "balcon"){
-        if(primaDataIn_Balcon == "da"){
+        if(primaDataIn_Balcon){
             console.log(`Din balcon se vede afara. Esti la etajul 12.`);
 
-            primaDataIn_Balcon = "nu";
+            primaDataIn_Balcon = false;
         }
         else {
             console.log(`Esti in balcon.`);
@@ -141,7 +141,7 @@ Se arde becul si ai ramas in intuneric.
 
         var raspunsUtilizator = 0;
         
-        if(areCheie == "da"){
+        if(areCheie){
             raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
                 "usa catre dormitor"
                 , "usa catre sufragerie"
@@ -165,7 +165,7 @@ Se arde becul si ai ramas in intuneric.
 
         if(pozitieCurenta == "balcon"){
             console.log("Ai luat cheia, acum poti deschide ceva.");
-            areCheie = "da";
+            areCheie = true;
         }
     }
 }
