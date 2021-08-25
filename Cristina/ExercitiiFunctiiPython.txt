@@ -1,29 +1,31 @@
 
 def haiSaAdunam( nrUnu, nrDoi): 
-    print (int(nrUnu) + int(nrDoi))
+    return nrUnu + nrDoi
 
-haiSaAdunam (4, 11)
-haiSaAdunam (nrDoi=22, nrUnu=2)
+print(haiSaAdunam (4, 11))
+print(haiSaAdunam (nrDoi=22, nrUnu=2))
 
 
 def CelMaiMareDintreNoi( one, two, three):
-    
-    print (max (one, two, three))
-   
-CelMaiMareDintreNoi(one=int(8), two=int(6), three=int(25))
+    return(max (one, two, three))
 
-# Din cate am inteles punem return ca sa se termine functia si sa se intoarca la punctul in care a fost apelata. 
-# In cazul de fata se  opreste de la sine pentru ca se termina. Corect?
-# Daca pun return am vazut ca face functiile care urmeaza dupa  ca fiind latente, nu le mai acceseaza
+    
+print(CelMaiMareDintreNoi (20, 84, 2))
+
 
 def laPatrat ( valoare ):
-    print (valoare * valoare)
-laPatrat (valoare=int(9))
+    return valoare * valoare
+
+print(laPatrat(9))
+print(laPatrat(8))
+print(laPatrat(5))
 
 
- 
 
 def simonSays ( zic ):
-    print ("Symon says, " + str(zic))
+    return ('''
+Simon says, ''' + zic)
 
-simonSays ("you scream, I scream, We all scream foe ice cream")
+print(simonSays ( '''I scream, 
+you scream,
+we all scream for ice cream!'''))
