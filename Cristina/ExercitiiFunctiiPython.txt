@@ -1,0 +1,31 @@
+
+def haiSaAdunam( nrUnu, nrDoi): 
+    return nrUnu + nrDoi
+
+print(haiSaAdunam (4, 11))
+print(haiSaAdunam (nrDoi=22, nrUnu=2))
+
+
+def CelMaiMareDintreNoi( one, two, three):
+    return(max (one, two, three))
+
+    
+print(CelMaiMareDintreNoi (20, 84, 2))
+
+
+def laPatrat ( valoare ):
+    return valoare * valoare
+
+print(laPatrat(9))
+print(laPatrat(8))
+print(laPatrat(5))
+
+
+
+def simonSays ( zic ):
+    return ('''
+Simon says, ''' + zic)
+
+print(simonSays ( '''I scream, 
+you scream,
+we all scream for ice cream!'''))
