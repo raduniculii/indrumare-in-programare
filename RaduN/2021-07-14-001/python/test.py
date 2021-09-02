@@ -1,20 +1,34 @@
 import sys
 #sys.exit() pentru cand vrem sa terminam programul fortat
 
-pozitieCurenta = "hol"
-areCheie = False
+IX_NEVALID = -1
 
-primaDataIn_Hol = True
-primaDataIn_Baie = True
-primaDataIn_Dormitor = True
-primaDataIn_Sufragerie = True
-primaDataIn_Balcon = True
+#astea nu mai sunt constante, ca sa le putem schimba ordinea si mai
+#stiu eu ce, asa ca folosim litere mici, ca si CONVENTIE (adica mergea
+#la fel programul si cu litere mari dar e conventie arhi-cunoscuta ca
+#avem constante cu caps lock si variabile normale fara)
+#Le punem pe toate 0 desi ele nu vor fi 0 ci in functie de indexul adevarat
+ixHol = 0
+ixBaie = 0
+ixDormitor = 0
+ixSufragerie = 0
+ixBalcon = 0
+ixAfara = 0
+ixCheie = 0
+
+primaDataIn = []
+primulTextPentru = []
+textulUrmatorPentru = []
+textOptiunePentru = []
+listaDeOptiuniPentru = []
 
 def oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni):
+    if listaDeOptiuni == None or len(listaDeOptiuni) == 0: return IX_NEVALID
+
     print("Ai urmatoarele optiuni:")
     index = 0
     while index < len(listaDeOptiuni):
-        print("   [" + str(index + 1) + "] " + listaDeOptiuni[index])
+        print("   [" + str(index + 1) + "] " + textOptiunePentru[listaDeOptiuni[index]])
         index = index + 1
 
     print(f"Ce alegi (1-{len(listaDeOptiuni)})?")
@@ -24,7 +38,7 @@ def oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni):
     while alegereUtilizator == -1:
         try:
             alegereUtilizator = int(input())
-        except:
+        except ValueError:
             #daca nu a mers transformatea in int, facem alegerea iar -1, desi tot aia ramasese
             alegereUtilizator = -1
 
@@ -32,121 +46,116 @@ def oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuni):
             print(f"Optiune inexistenta, te rog reintrodu o optiune de la 1 la {len(listaDeOptiuni)}.")
             alegereUtilizator = -1
 
-    return alegereUtilizator - 1
+    return listaDeOptiuni[alegereUtilizator - 1]
 
-while pozitieCurenta != "afara":
-    if pozitieCurenta == "hol":
-        if primaDataIn_Hol:
-            print(f"Esti in holul unei case din care trebuie neaparat sa iesi.")
+def AfiseazaMesajCameraSiActualizeazaPrimaData(indexCamera):
+    if primaDataIn[indexCamera]:
+        print(primulTextPentru[indexCamera])
 
-            primaDataIn_Hol = False
+        primaDataIn[indexCamera] = False
+    else:
+        print(textulUrmatorPentru[indexCamera])
+
+def AdaugaOptiune(primulText, textulUrmator, textOptiune):
+    primaDataIn.append(True)
+    primulTextPentru.append(primulText)
+    textulUrmatorPentru.append(textulUrmator)
+    textOptiunePentru.append(textOptiune)
+    
+    #punem None aici (e ca null din js sau C#) si o definim unde doar avem nevoie
+    listaDeOptiuniPentru.append(None)
+
+    #returnam indexul elementului abia adaugat
+    return len(primaDataIn) - 1
+
+def ConfigureazaOptiuni():
+    # trebuie sa punem astea ca si global ca sa ne lase se le re-atribuim o valoare
+    # Nota: la liste nu am facut asta pentru ca nu le-am re-atribuit lor, ci fie
+    # le-am adaugat elemente, fie am reatribuit elementele lor
+    global ixHol
+    global ixBaie
+    global ixDormitor
+    global ixSufragerie
+    global ixBalcon
+    global ixAfara
+    global ixCheie
+
+    ixHol = AdaugaOptiune(
+        "Esti in holul unei case din care trebuie neaparat sa iesi."
+        , "Esti in hol."
+        , "usa de la hol."
+    )
+
+    ixBaie = AdaugaOptiune(
+        """Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
+Se arde becul si ai ramas in intuneric."""
+        , "Esti in baie si e bezna."
+        , "usa de la baie"
+    )
+    
+    ixDormitor = AdaugaOptiune(
+        "Dormitorul arata sinistru."
+        , "Esti in dormitor."
+        , "usa de la dormitor."
+    )
+
+    ixSufragerie = AdaugaOptiune(
+        "Sufrageria arata primitor, desi tu nu ai timp sa stai la TV."
+        , "Esti in sufragerie."
+        , "usa de la sufragerie."
+    )
+
+    ixBalcon = AdaugaOptiune(
+        "Din balcon se vede afara. Esti la etajul 12."
+        , "Esti in balcon."
+        , "usa de la balcon"
+    )
+
+    ixAfara = AdaugaOptiune(
+        None
+        , None
+        , "usa de intrare/iesire din apartament"
+    )
+
+    ixCheie = AdaugaOptiune(
+        None
+        , None
+        , "ridica cheia"
+    )
+
+    #lista cu liste
+    listaDeOptiuniPentru[ixHol] = [ ixAfara, ixBaie, ixDormitor, ixSufragerie ]
+    listaDeOptiuniPentru[ixDormitor] = [ ixHol, ixBalcon ]
+    listaDeOptiuniPentru[ixSufragerie] = [ ixHol, ixBalcon ]
+    listaDeOptiuniPentru[ixBalcon] = [ ixDormitor, ixSufragerie, ixCheie ]
+
+#functia facuta de noi
+ConfigureazaOptiuni()
+
+pozitieCurenta = ixHol
+areCheie = False
+raspunsUtilizator = IX_NEVALID
+
+while pozitieCurenta != ixAfara:
+    AfiseazaMesajCameraSiActualizeazaPrimaData(pozitieCurenta)
+    raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuniPentru[pozitieCurenta])
+
+    if pozitieCurenta == ixHol and raspunsUtilizator == ixAfara:
+        if areCheie:
+            pozitieCurenta = ixAfara
         else:
-            print(f"Esti in hol.")
-
-        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
-            "usa de intrare/iesire din apartament"
-            , "usa de la baie"
-            , "usa de la dormitor"
-            , "usa de la sufragerie"
-        ])
-
-        listaPozitiiUrmatoare = [
-            "afara" #0
-            , "baie" #1
-            , "dormitor" #2
-            , "sufragerie" #3
-        ]
-
-        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator]
-        
-        #cum areCheie e boolean (adica True sau False), am inlocuit areCheie != "da" cu (nu areCheie, care in limbaj e not areCheie)
-        if pozitieCurenta == "afara" and (not areCheie):
             print("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...")
             print("Va trebui sa incerci altceva.")
-            pozitieCurenta = "hol"
-    elif pozitieCurenta == "baie":
-        if primaDataIn_Baie:
-            #in python, putem avea string-uri cu 3 seturi de ghilimele, acestea ne permit sa avem randuri multiple
-            print(f"""Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
-Se arde becul si ai ramas in intuneric.
-""")
-
-            primaDataIn_Baie = False
-        else:
-            print(f"Esti in baie si e bezna.")
-
-        print(f"Nu ai nici o alta optiune decat sa te intorci in hol.")
-        pozitieCurenta = "hol"
-    elif pozitieCurenta == "dormitor":
-        if primaDataIn_Dormitor:
-            print(f"Dormitorul arata sinistru.")
-
-            primaDataIn_Dormitor = False
-        else:
-            print(f"Esti in dormitor.")
-
-        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
-            "usa catre hol"
-            , "usa catre balcon"
-        ])
-
-        listaPozitiiUrmatoare = [
-            "hol" #0
-            , "balcon" #1
-        ]
-
-        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator]
-    elif pozitieCurenta == "sufragerie":
-        if primaDataIn_Sufragerie:
-            print(f"Sufrageria arata primitor, desi tu nu ai timp sa stai la TV.")
-
-            primaDataIn_Sufragerie = False
-        else:
-            print(f"Esti in sufragerie.")
-
-        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
-            "usa catre hol"
-            , "usa catre balcon"
-        ])
-
-        listaPozitiiUrmatoare = [
-            "hol" #0
-            , "balcon" #1
-        ]
-
-        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator]
-    elif pozitieCurenta == "balcon":
-        if primaDataIn_Balcon:
-            print(f"Din balcon se vede afara. Esti la etajul 12.")
-
-            primaDataIn_Balcon = False
-        else:
-            print(f"Esti in balcon.")
-
-        raspunsUtilizator = 0
+    elif pozitieCurenta == ixBaie:
+        print("Nu ai nici o alta optiune decat sa te intorci in hol.")
+        pozitieCurenta = ixHol
+    elif raspunsUtilizator == ixCheie:
+        print("Ai luat cheia, acum poti deschide ceva.")
+        areCheie = True
         
-        if areCheie:
-            raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
-                "usa catre dormitor"
-                , "usa catre sufragerie"
-            ])
-        else:
-            raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid([
-                "usa catre dormitor"
-                , "usa catre sufragerie"
-                , "ridica cheia de pe jos"
-            ])
-
-        listaPozitiiUrmatoare = [
-            "dormitor" #0
-            , "sufragerie" #1
-            , "balcon" #2
-        ]
-
-        pozitieCurenta = listaPozitiiUrmatoare[raspunsUtilizator]
-
-        if pozitieCurenta == "balcon":
-            print("Ai luat cheia, acum poti deschide ceva.")
-            areCheie = True
+        #scoatem din lista de optiuni ixCheie.
+        listaDeOptiuniPentru[ixBalcon].remove(ixCheie)
+    else:
+        pozitieCurenta = raspunsUtilizator
 
 print("Ai reusit sa scapi din apartament, felicitari!")
