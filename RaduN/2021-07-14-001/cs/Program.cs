@@ -5,58 +5,36 @@ namespace test
 {
     class Program
     {
-        const int IX_HOL = 0;
-        const int IX_BAIE = 1;
-        const int IX_DORMITOR = 2;
-        const int IX_SUFRAGERIE = 3;
-        const int IX_BALCON = 4;
-        const int IX_AFARA = 5;
-        const int IX_CHEIE = 6;
+        const int IX_NEVALID = -1;
 
-        static List<bool> primaDataIn = new List<bool>(){ true, true, true, true, true, true, true };
-        static List<string> primulText = new List<string>(){
-            $@"Esti in holul unei case din care trebuie neaparat sa iesi."
-            , $@"Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
-Se arde becul si ai ramas in intuneric.
-"
-            , $@"Dormitorul arata sinistru."
-            , $@"Sufrageria arata primitor, desi tu nu ai timp sa stai la TV."
-            , $@"Din balcon se vede afara. Esti la etajul 12."
-            , null
-        };
-        static List<string> textulUrmator = new List<string>(){
-            $@"Esti in hol."
-            , $@"Esti in baie si e bezna."
-            , $@"Esti in dormitor."
-            , $@"Esti in sufragerie."
-            , $@"Esti in balcon."
-            , ""
-            , null
-        };
-        static List<string> textOptiune = new List<string>(){
-              "usa de la hol."
-            , "usa de la baie"
-            , "usa de la dormitor."
-            , "usa de la sufragerie."
-            , "usa de la balcon"
-            , "usa de intrare/iesire din apartament"
-            , "ridica cheia"
-        };
+        //astea nu mai sunt constante, ca sa le putem schimba ordinea si mai
+        //stiu eu ce, asa ca folosim litere mici, ca si CONVENTIE (adica mergea
+        //la fel programul si cu litere mari dar e conventie arhi-cunoscuta ca
+        //avem constante cu caps lock si variabile normale fara)
+        static int ixHol, ixBaie, ixDormitor, ixSufragerie, ixBalcon, ixAfara, ixCheie;
+
+        static List<bool> primaDataIn = new List<bool>(){};
+        static List<string> primulTextPentru = new List<string>(){};
+        static List<string> textulUrmatorPentru = new List<string>(){};
+        static List<string> textOptiunePentru = new List<string>(){};
+        static List<List<int>> listaDeOptiuniPentru = new List<List<int>>(){};
 
         //in C# specificam tipul returnat (in cazul nostru int) si tipul
         //parametrilor, in cazul nostru o lista / un array de string-uri
-        static int oferaOptiuniSiPreiaRaspunsValid(int[] listaDeOptiuni)
+        static int oferaOptiuniSiPreiaRaspunsValid(List<int> listaDeOptiuni)
         {
+            if(listaDeOptiuni == null || listaDeOptiuni.Count == 0) return IX_NEVALID;
+
             Console.WriteLine("Ai urmatoarele optiuni:");
             int index = 0;
-            while(index < listaDeOptiuni.Length)
+            while(index < listaDeOptiuni.Count)
             {
-                Console.WriteLine("   [" + (index + 1).ToString() + "] " + textOptiune[listaDeOptiuni[index]]);
+                Console.WriteLine("   [" + (index + 1).ToString() + "] " + textOptiunePentru[listaDeOptiuni[index]]);
 
                 index = index + 1;
             }
 
-            Console.WriteLine($@"Ce alegi (1-{listaDeOptiuni.Length})?");
+            Console.WriteLine($@"Ce alegi (1-{listaDeOptiuni.Count})?");
 
             string alegereUtilizator = "";
             int nr = 0;
@@ -69,8 +47,8 @@ Se arde becul si ai ramas in intuneric.
                 //Daca a reusit transformarea, parametrul #2 (in cazul nostru nr) primeste in el valoarea
                 //citita (paranteza: cand vedeti cuvintele out sau ref inainte de parametri,
                 //inseamna ca functia va poate schimba variabila)
-                if(!int.TryParse(alegereUtilizator, out nr) || nr < 1 || nr > listaDeOptiuni.Length){
-                    Console.WriteLine($@"Optiune inexistenta, te rog reintrodu o optiune de la 1 la {listaDeOptiuni.Length}.");
+                if(!int.TryParse(alegereUtilizator, out nr) || nr < 1 || nr > listaDeOptiuni.Count){
+                    Console.WriteLine($@"Optiune inexistenta, te rog reintrodu o optiune de la 1 la {listaDeOptiuni.Count}.");
                     alegereUtilizator = "";
                 }
             }
@@ -81,101 +59,123 @@ Se arde becul si ai ramas in intuneric.
         static void AfiseazaMesajCameraSiActualizeazaPrimaData(int indexCamera)
         {
             if(primaDataIn[indexCamera]){
-                Console.WriteLine(primulText[indexCamera]);
+                Console.WriteLine(primulTextPentru[indexCamera]);
 
                 primaDataIn[indexCamera] = false;
             }
             else {
-                Console.WriteLine(textulUrmator[indexCamera]);
+                Console.WriteLine(textulUrmatorPentru[indexCamera]);
             }
+        }
+
+        static int AdaugaOptiune(string primulText, string textulUrmator, string textOptiune)
+        {
+            primaDataIn.Add(true);
+            primulTextPentru.Add(primulText);
+            textulUrmatorPentru.Add(textulUrmator);
+            textOptiunePentru.Add(textOptiune);
+            
+            //punem null aici si o definim unde doar avem nevoie
+            listaDeOptiuniPentru.Add(null);
+
+            //returnam indexul elementului abia adaugat
+            return primaDataIn.Count - 1;
+        }
+
+        static void ConfigureazaOptiuni()
+        {
+            ixHol = AdaugaOptiune(
+                $@"Esti in holul unei case din care trebuie neaparat sa iesi."
+                , $@"Esti in hol."
+                , "usa de la hol."
+            );
+
+            ixBaie = AdaugaOptiune(
+                $@"Esti in baie. Aprinzi lumina si vrei sa te speli pe fata.
+Se arde becul si ai ramas in intuneric."
+                , $@"Esti in baie si e bezna."
+                , "usa de la baie"
+            );
+            
+            ixDormitor = AdaugaOptiune(
+                $@"Dormitorul arata sinistru."
+                , $@"Esti in dormitor."
+                , "usa de la dormitor."
+            );
+
+            ixSufragerie = AdaugaOptiune(
+                $@"Sufrageria arata primitor, desi tu nu ai timp sa stai la TV."
+                , $@"Esti in sufragerie."
+                , "usa de la sufragerie."
+            );
+
+            ixBalcon = AdaugaOptiune(
+                $@"Din balcon se vede afara. Esti la etajul 12."
+                , $@"Esti in balcon."
+                , "usa de la balcon"
+            );
+
+            ixAfara = AdaugaOptiune(
+                null
+                , null
+                , "usa de intrare/iesire din apartament"
+            );
+
+            ixCheie = AdaugaOptiune(
+                null
+                , null
+                , "ridica cheia"
+            );
+
+            listaDeOptiuniPentru[ixHol] = new List<int>(){ ixAfara, ixBaie, ixDormitor, ixSufragerie };
+            listaDeOptiuniPentru[ixDormitor] = new List<int>(){ ixHol, ixBalcon };
+            listaDeOptiuniPentru[ixSufragerie] = new List<int>(){ ixHol, ixBalcon };
+            listaDeOptiuniPentru[ixBalcon] = new List<int>(){ ixDormitor, ixSufragerie, ixCheie };
         }
 
         static void Main(string[] args)
         {
+            //functia facuta de noi
+            ConfigureazaOptiuni();
+
             //in C# putem defini variabilele cu var si apoi sa le dam o valoare
             //si compilatorul "ghiceste" tipul variabilei la fel ca in js sau python
             //dar putem si sa le specificam direct tipul, cum ar fi string, bool, int, s.a.m.d.
-            int pozitieCurenta = IX_HOL;
+            int pozitieCurenta = ixHol;
             bool areCheie = false;
+            int raspunsUtilizator = IX_NEVALID;
 
-            while(pozitieCurenta != IX_AFARA){
-                if(pozitieCurenta == IX_HOL){
-                    AfiseazaMesajCameraSiActualizeazaPrimaData(IX_HOL);
+            while(pozitieCurenta != ixAfara)
+            {
+                AfiseazaMesajCameraSiActualizeazaPrimaData(pozitieCurenta);
+                raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaDeOptiuniPentru[pozitieCurenta]);
 
-                    int[] listaPozitiiUrmatoare = new int[]{
-                        IX_AFARA
-                        , IX_BAIE
-                        , IX_DORMITOR
-                        , IX_SUFRAGERIE
-                    };
-                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaPozitiiUrmatoare);
-
-                    pozitieCurenta = raspunsUtilizator;
-                    
-                    //cum areCheie e boolean (adica true sau false), am inlocuit areCheie != "da" cu (nu areCheie, care in limbaj e !areCheie)
-                    if(pozitieCurenta == IX_AFARA && !areCheie)
+                if(pozitieCurenta == ixHol && raspunsUtilizator == ixAfara)
+                {
+                    if(areCheie)
+                    {
+                        pozitieCurenta = ixAfara;
+                    }
+                    else
                     {
                         Console.WriteLine("Usa de intrare/iesire din apartament e incuiata si tu nu ai cheie...");
                         Console.WriteLine("Va trebui sa incerci altceva.");
-                        pozitieCurenta = IX_HOL;
                     }
                 }
-                else if(pozitieCurenta == IX_BAIE){
-                    AfiseazaMesajCameraSiActualizeazaPrimaData(IX_BAIE);
-
+                else if(pozitieCurenta == ixBaie)
+                {
                     Console.WriteLine($@"Nu ai nici o alta optiune decat sa te intorci in hol.");
-                    pozitieCurenta = IX_HOL;
+                    pozitieCurenta = ixHol;
                 }
-                else if(pozitieCurenta == IX_DORMITOR){
-                    AfiseazaMesajCameraSiActualizeazaPrimaData(IX_DORMITOR);
-
-                    int[] listaPozitiiUrmatoare = new int[]{
-                        IX_HOL
-                        , IX_BALCON
-                    };
-                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaPozitiiUrmatoare);
-
-                    pozitieCurenta = raspunsUtilizator;
+                else if(raspunsUtilizator == ixCheie)
+                {
+                    Console.WriteLine("Ai luat cheia, acum poti deschide ceva.");
+                    areCheie = true;
+                    listaDeOptiuniPentru[ixBalcon].Remove(ixCheie);
                 }
-                else if(pozitieCurenta == IX_SUFRAGERIE){
-                    AfiseazaMesajCameraSiActualizeazaPrimaData(IX_SUFRAGERIE);
-
-                    int[] listaPozitiiUrmatoare = new int[]{
-                        IX_HOL
-                        , IX_BALCON
-                    };
-                    int raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaPozitiiUrmatoare);
-
+                else
+                {
                     pozitieCurenta = raspunsUtilizator;
-                }
-                else if(pozitieCurenta == IX_BALCON){
-                    AfiseazaMesajCameraSiActualizeazaPrimaData(IX_BALCON);
-
-                    int raspunsUtilizator = 0;
-                    
-                    if(areCheie){
-                        int[] listaPozitiiUrmatoare = new int[]{
-                            IX_BALCON
-                            , IX_SUFRAGERIE
-                        };
-                        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaPozitiiUrmatoare);
-                    }
-                    else {
-                        int[] listaPozitiiUrmatoare = new int[]{
-                            IX_BALCON
-                            , IX_SUFRAGERIE
-                            , IX_CHEIE
-                        };
-                        raspunsUtilizator = oferaOptiuniSiPreiaRaspunsValid(listaPozitiiUrmatoare);
-                    }
-
-                    pozitieCurenta = raspunsUtilizator;
-
-                    if(pozitieCurenta == IX_CHEIE){
-                        Console.WriteLine("Ai luat cheia, acum poti deschide ceva.");
-                        areCheie = true;
-                        pozitieCurenta = IX_BALCON;
-                    }
                 }
             }
 
