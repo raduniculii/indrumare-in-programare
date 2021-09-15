@@ -135,6 +135,17 @@ Se arde becul si ai ramas in intuneric."
 
         static void Main(string[] args)
         {
+            List<string> listaNume = new List<string>(){
+                "Ion", "Maria", "George", "Ana"
+            };
+
+            foreach (string nume in listaNume)
+            {
+                System.Console.WriteLine(nume);
+            }
+
+            return;
+
             //functia facuta de noi
             ConfigureazaOptiuni();
 
