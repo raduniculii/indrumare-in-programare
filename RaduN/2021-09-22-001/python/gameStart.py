@@ -2,42 +2,30 @@
 import pygame, sys
 from pygame.locals import *
 import random, time
+from constants import *
 
-def noop(): pass #"no operation" function 
+###############################################
+###############################################
+####                                        ###
+####      Asta nu e ca sa il schimbati voi, ###
+####    e ca sa va ascunda codul care cred  ###
+####    ca v-ar fi dificil deocamdata.      ###
+####      Uitati-va si modificati linistiti ###
+####    daca vreti, dar "tema" e in test.py ###
+####                                        ###
+####                                        ###
+####                                        ###
+####                                        ###
+####                                        ###
+###############################################
+###############################################
 
-KeyDownHanders = {
-    "up": noop
-    , "right": noop
-    , "down": noop
-    , "left": noop
-}
-
-ScreenBlocks = []
-i = 0
-while i < 10:
-    ScreenBlocks.append([])
-    j = 0
-    while j < 20:
-        ScreenBlocks[i].append(False)
-        j += 1
-    
-    i += 1;
-
-myX = 1
-myY = 1
-
-def TurnOn(col, row):
-    ScreenBlocks[col - 1][row - 1] = True
-
-def TurnOff(col, row):
-    ScreenBlocks[col - 1][row - 1] = False
-
-def IsOn(col, row):
-    return ScreenBlocks[col - 1][row - 1]
-
-def startGame():
+def startGame(KeyDownHandler):
     #Initialzing 
     pygame.init()
+
+    #declaram o matrice bidimensionala de 20 x 10
+    ScreenBlocks = [[0 for y in range(ROWS)] for x in range(COLUMNS)]
 
     #Setting up FPS 
     FPS = 60
@@ -63,7 +51,9 @@ def startGame():
 
     background_off = pygame.image.load("resurse/imagini/ScreenOff.bmp")
     background_full = pygame.image.load("resurse/imagini/ScreenOnLcdOn.bmp")
-    background = pygame.image.load("resurse/imagini/ScreenOn.bmp")
+    background_on = pygame.image.load("resurse/imagini/ScreenOn.bmp")
+
+    background = background_off
 
     squareOnImage = pygame.image.load("resurse/imagini/SquareOn.bmp")
 
@@ -80,9 +70,17 @@ def startGame():
     INC_SPEED = pygame.USEREVENT + 1
     EVT_CHECK_KEY = pygame.USEREVENT + 2
     EVT_MOVE = pygame.USEREVENT + 3
+    EVT_SCREEN_ON = pygame.USEREVENT + 4
+    EVT_SCREEN_READY = pygame.USEREVENT + 5
+    EVT_START_MUSIC_DONE = pygame.USEREVENT + 6
     #pygame.time.set_timer(INC_SPEED, 1000)
-    pygame.time.set_timer(EVT_CHECK_KEY, 100)
-    pygame.time.set_timer(EVT_MOVE, 700)
+    pygame.time.set_timer(EVT_SCREEN_ON, 500, loops=1)
+    pygame.time.set_timer(EVT_SCREEN_READY, 1000, loops=1)
+
+    # pygame.mixer.music.load("resurse/sunete/Brick_Game_8_in_1_Song01.mp3")
+    # pygame.mixer.music.set_volume(0.05)
+    # pygame.mixer.music.play(0, 0.0)
+    # pygame.mixer.music.set_endevent(EVT_START_MUSIC_DONE)
 
     #Game Loop
     while True:
@@ -90,20 +88,30 @@ def startGame():
         for event in pygame.event.get():
             if event.type == INC_SPEED:
                 SPEED += 0.5
-                #if SPEED == 10:
-                    #pygame.mixer.music.load("Our-Mountain_v003.mp3")#REPLACE
-                    #pygame.mixer.music.play(-1,0.0)
             if event.type == EVT_MOVE:
                 pass
+            if event.type == EVT_START_MUSIC_DONE:
+                print("music done")
+            if event.type == EVT_SCREEN_ON:
+                print("screen on - background full")
+                background = background_full
+            if event.type == EVT_SCREEN_READY:
+                print("screen ready")
+                background = background_on
+                pygame.time.set_timer(EVT_CHECK_KEY, 50)
+                pygame.time.set_timer(EVT_MOVE, 700)
             if event.type == EVT_CHECK_KEY:
-                if pressed_keys[K_UP]:
-                    KeyDownHanders["up"]()
-                elif pressed_keys[K_DOWN]:
-                    KeyDownHanders["down"]()
-                elif pressed_keys[K_LEFT]:
-                    KeyDownHanders["left"]()
-                elif pressed_keys[K_RIGHT]:
-                    KeyDownHanders["right"]()
+                if(KeyDownHandler != None):
+                    if pressed_keys[K_UP]:
+                        KeyDownHandler(KEY_ARROW_UP, ScreenBlocks)
+                    elif pressed_keys[K_DOWN]:
+                        KeyDownHandler(KEY_ARROW_DOWN, ScreenBlocks)
+                    elif pressed_keys[K_LEFT]:
+                        KeyDownHandler(KEY_ARROW_LEFT, ScreenBlocks)
+                    elif pressed_keys[K_RIGHT]:
+                        KeyDownHandler(KEY_ARROW_RIGHT, ScreenBlocks)
+                    elif pressed_keys[K_SPACE]:
+                        KeyDownHandler(KEY_SPACE, ScreenBlocks)
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
