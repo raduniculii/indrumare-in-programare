@@ -7,6 +7,16 @@ from gameStart import startGame
 myX = 0
 myY = 0
 
+class point:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+    def __init__(self, initialX, initialY):
+        self.x = initialX
+        self.y = initialY
+
+snake = [point(6, 10), point(5, 10), point(4, 10)]
+
 #metoda definita doar aici si o dam ca argument lui "startGame", care o va chema
 #cand are treaba, de ex. cand userul apasa tastele definite.
 #"startGame", cand o cheama, ii da ca primul argument codul tastei apasate,
@@ -22,20 +32,39 @@ def keyDownHandler(key, blocks):
     #facem referire la cele definite in afara functiei, nu definim altele
     global myX, myY
 
-    blocks[myX][myY] = False
+    #blocks[myX][myY] = False
+    
+    offsetX = 0
+    offsetY = 0
 
     if(key == KEY_ARROW_UP):
         myY = max(myY - 1, 0)
+        offsetY = -1
     elif(key == KEY_ARROW_RIGHT):
         myX = min(myX + 1, COLUMNS - 1)
+        offsetX = +1
     elif(key == KEY_ARROW_DOWN):
         myY = min(myY + 1, ROWS - 1)
+        offsetY = +1
     elif(key == KEY_ARROW_LEFT):
         myX = max(myX - 1, 0)
+        offsetX = -1
     elif(key == KEY_SPACE):
         print("space")#nothign else yet...
 
-    blocks[myX][myY] = True
+    if (
+            (snake[0].y + offsetY != snake[1].y or snake[0].x + offsetX != snake[1].x)
+            and (snake[0].x + offsetX >= 0 and snake[0].x + offsetX < COLUMNS)
+            and (snake[0].y + offsetY >= 0 and snake[0].y + offsetY < ROWS)
+            and (offsetX != 0 or offsetY != 0)
+        ):
+        snake.insert(0, point(snake[0].x + offsetX, snake[0].y + offsetY))
+        p = snake.pop()
+        blocks[p.x][p.y] = False
+
+    #blocks[myX][myY] = True
+    for p in snake:
+        blocks[p.x][p.y] = True
 
 #aici chemam startGame si ii zicem sa ne cheme functia noastra "keyDownHandler"
 #cand are ceva sa ne comunice

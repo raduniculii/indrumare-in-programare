@@ -68,7 +68,6 @@ def startGame(KeyDownHandler):
 
     #Adding a new User event 
     INC_SPEED = pygame.USEREVENT + 1
-    EVT_CHECK_KEY = pygame.USEREVENT + 2
     EVT_MOVE = pygame.USEREVENT + 3
     EVT_SCREEN_ON = pygame.USEREVENT + 4
     EVT_SCREEN_READY = pygame.USEREVENT + 5
@@ -82,9 +81,14 @@ def startGame(KeyDownHandler):
     # pygame.mixer.music.play(0, 0.0)
     # pygame.mixer.music.set_endevent(EVT_START_MUSIC_DONE)
 
+    pygame.key.set_repeat(50, 100)
+    keyToProcess = KEY_OTHER
+
     #Game Loop
     while True:
-        #Cycles through all events occuring  
+        #Cycles through all events occuring
+        
+        pressed_keys = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == INC_SPEED:
                 SPEED += 0.5
@@ -98,25 +102,25 @@ def startGame(KeyDownHandler):
             if event.type == EVT_SCREEN_READY:
                 print("screen ready")
                 background = background_on
-                pygame.time.set_timer(EVT_CHECK_KEY, 50)
-                pygame.time.set_timer(EVT_MOVE, 700)
-            if event.type == EVT_CHECK_KEY:
-                if(KeyDownHandler != None):
-                    if pressed_keys[K_UP]:
-                        KeyDownHandler(KEY_ARROW_UP, ScreenBlocks)
-                    elif pressed_keys[K_DOWN]:
-                        KeyDownHandler(KEY_ARROW_DOWN, ScreenBlocks)
-                    elif pressed_keys[K_LEFT]:
-                        KeyDownHandler(KEY_ARROW_LEFT, ScreenBlocks)
-                    elif pressed_keys[K_RIGHT]:
-                        KeyDownHandler(KEY_ARROW_RIGHT, ScreenBlocks)
-                    elif pressed_keys[K_SPACE]:
-                        KeyDownHandler(KEY_SPACE, ScreenBlocks)
+                pygame.time.set_timer(EVT_MOVE, 200)
+            if event.type == KEYDOWN:
+                if pressed_keys[K_UP]:
+                    keyToProcess = KEY_ARROW_UP
+                elif pressed_keys[K_DOWN]:
+                    keyToProcess = KEY_ARROW_DOWN
+                elif pressed_keys[K_LEFT]:
+                    keyToProcess = KEY_ARROW_LEFT
+                elif pressed_keys[K_RIGHT]:
+                    keyToProcess = KEY_ARROW_RIGHT
+                elif pressed_keys[K_SPACE]:
+                    keyToProcess = KEY_SPACE
+                
+                KeyDownHandler(keyToProcess, ScreenBlocks)
+                keyToProcess = KEY_OTHER
+                
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-        
-        pressed_keys = pygame.key.get_pressed()
 
         if pressed_keys[K_ESCAPE]:
             pygame.quit()
