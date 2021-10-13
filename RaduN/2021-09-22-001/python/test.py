@@ -2,7 +2,7 @@
 from constants import *
 #importam functia startGame din gameStart.py
 from gameStart import startGame
-
+import pygame, sys
 #definite doar in test.py, le puteti denumi cum vreti voi si sa faceti si 100 daca vreti
 # myX = 0
 # myY = 0
@@ -37,8 +37,8 @@ from gameStart import startGame
 
 #     blocks[myX][myY] = True
 
-wormXCoord = [0,1,2,3]
-wormYCoord = [0,1,2,3]
+wormXCoord = [5,5,5,5]
+wormYCoord = [8,9,10,11]
 
 def DrawWorm(IsOn,blocks):
     for i in range(0,len(wormXCoord)):
@@ -60,22 +60,40 @@ def keyDownHandler(key, blocks):
 
     if(key == KEY_ARROW_UP):
         MoveWorm()
-        #wormYCoord[0] = max(wormYCoord[0] - 1, 0)
-        wormYCoord[0] = (wormYCoord[0] - 1 + ROWS)%ROWS
+        wormYCoord[0] = max(wormYCoord[0] - 1, 0)
+        #wormYCoord[0] = (wormYCoord[0] - 1 + ROWS)%ROWS
+        
+        if (key == KEY_ARROW_UP) and (wormYCoord[0]==0)  :
+            print('Game over') 
+            sys.exit()              
 
     elif(key == KEY_ARROW_RIGHT):
         MoveWorm()
         wormXCoord[0] = min(wormXCoord[0] + 1, COLUMNS - 1)
+        if (key == KEY_ARROW_RIGHT) and (wormXCoord[0]==9)  :
+            print('Game over') 
+            sys.exit()      
+
     elif(key == KEY_ARROW_DOWN):
         MoveWorm()
-        #wormYCoord[0] = min(wormYCoord[0] + 1, ROWS - 1)
-        wormYCoord[0] = (wormYCoord[0] + 1 + ROWS)%ROWS
+        wormYCoord[0] = min(wormYCoord[0] + 1, ROWS - 1)
+       # wormYCoord[0] = (wormYCoord[0] + 1 + ROWS)%ROWS
+        if (key == KEY_ARROW_DOWN) and (wormYCoord[0]==19)  :
+            print('Game over') 
+            sys.exit()
+
     elif(key == KEY_ARROW_LEFT):
         MoveWorm()
         wormXCoord[0] = max(wormXCoord[0] - 1, 0)
+        if (key == KEY_ARROW_LEFT) and (wormXCoord[0]==0)  :
+            print('Game over') 
+            sys.exit()
+            
     elif(key == KEY_SPACE):
         MoveWorm()
         print("space")#nothign else yet...
+
+       
 
     DrawWorm(True,blocks)
        
