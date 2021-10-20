@@ -39,6 +39,8 @@ import pygame, sys
 
 wormXCoord = [5,5,5,5]
 wormYCoord = [8,9,10,11]
+dirY = -1 # -1, 0, +1
+dirX = 0 # -1, 0, +1
 
 def DrawWorm(IsOn,blocks):
     for i in range(0,len(wormXCoord)):
@@ -46,58 +48,52 @@ def DrawWorm(IsOn,blocks):
         y = wormYCoord[i]
         blocks[x][y] = IsOn
 
-def MoveWorm():
-    wormXCoord.pop() 
-    wormYCoord.pop()
-    wormXCoord.insert(0,wormXCoord[0]) 
-    wormYCoord.insert(0,wormYCoord[0]) 
-
 def keyDownHandler(key, blocks):
+    global dirY, dirX
     
-    global wormXCoord, wormYCoord
-    
-    DrawWorm(False,blocks)
-
     if(key == KEY_ARROW_UP):
-        MoveWorm()
-        wormYCoord[0] = max(wormYCoord[0] - 1, 0)
-        #wormYCoord[0] = (wormYCoord[0] - 1 + ROWS)%ROWS
-        
-        if (key == KEY_ARROW_UP) and (wormYCoord[0]==0)  :
-            print('Game over') 
-            sys.exit()              
-
+        dirY = -1
+        dirX = 0
     elif(key == KEY_ARROW_RIGHT):
-        MoveWorm()
-        wormXCoord[0] = min(wormXCoord[0] + 1, COLUMNS - 1)
-        if (key == KEY_ARROW_RIGHT) and (wormXCoord[0]==9)  :
-            print('Game over') 
-            sys.exit()      
-
+        dirY = 0
+        dirX = +1
     elif(key == KEY_ARROW_DOWN):
-        MoveWorm()
-        wormYCoord[0] = min(wormYCoord[0] + 1, ROWS - 1)
-       # wormYCoord[0] = (wormYCoord[0] + 1 + ROWS)%ROWS
-        if (key == KEY_ARROW_DOWN) and (wormYCoord[0]==19)  :
-            print('Game over') 
-            sys.exit()
-
+        dirY = +1
+        dirX = 0
     elif(key == KEY_ARROW_LEFT):
-        MoveWorm()
-        wormXCoord[0] = max(wormXCoord[0] - 1, 0)
-        if (key == KEY_ARROW_LEFT) and (wormXCoord[0]==0)  :
-            print('Game over') 
-            sys.exit()
-            
+        dirY = 0
+        dirX = -1
     elif(key == KEY_SPACE):
-        MoveWorm()
-        print("space")#nothign else yet...
+        pass
 
-       
+speed_in_intervals = 50
+intervalsSoFar = 0
 
-    DrawWorm(True,blocks)
-       
+def timerTick(blocks):
+    global intervalsSoFar
+    if intervalsSoFar == 0:
+        global wormXCoord, wormYCoord
+        
+        #VALIDATI noile X si Y aici !!!!
+        # AICI
+        # AICI
+
+        DrawWorm(False,blocks)
+
+        #remove last block
+        wormXCoord.pop() 
+        wormYCoord.pop()
+        
+        #insert a new block at the beginning, using the new position for it based on dirX and dirY
+        wormXCoord.insert(0, wormXCoord[0] + dirX) 
+        wormYCoord.insert(0, wormYCoord[0] + dirY) 
+
+        DrawWorm(True,blocks)
+
+    intervalsSoFar += 1
+    if intervalsSoFar >= speed_in_intervals:
+        intervalsSoFar = 0
 
 #aici chemam startGame si ii zicem sa ne cheme functia noastra "keyDownHandler"
 #cand are ceva sa ne comunice
-startGame(keyDownHandler)
+startGame(keyDownHandler, timerTick)

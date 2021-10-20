@@ -20,7 +20,7 @@ from constants import *
 ###############################################
 ###############################################
 
-def startGame(KeyDownHandler):
+def startGame(KeyDownHandler, TimerTick):
     #Initialzing 
     pygame.init()
 
@@ -60,19 +60,17 @@ def startGame(KeyDownHandler):
     #Create a white screen 
     DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     DISPLAYSURF.blit(background, (0,0))
-    pygame.display.set_caption("Game")
+    pygame.display.set_caption("Tetris")
 
 
     SQUARE_SIZE = 14
     SPACING = 1
 
     #Adding a new User event 
-    INC_SPEED = pygame.USEREVENT + 1
-    EVT_MOVE = pygame.USEREVENT + 3
     EVT_SCREEN_ON = pygame.USEREVENT + 4
     EVT_SCREEN_READY = pygame.USEREVENT + 5
     EVT_START_MUSIC_DONE = pygame.USEREVENT + 6
-    #pygame.time.set_timer(INC_SPEED, 1000)
+    EVT_GAME_TIMER = pygame.USEREVENT + 7
     pygame.time.set_timer(EVT_SCREEN_ON, 500, loops=1)
     pygame.time.set_timer(EVT_SCREEN_READY, 1000, loops=1)
 
@@ -90,10 +88,8 @@ def startGame(KeyDownHandler):
         
         pressed_keys = pygame.key.get_pressed()
         for event in pygame.event.get():
-            if event.type == INC_SPEED:
-                SPEED += 0.5
-            if event.type == EVT_MOVE:
-                pass
+            if event.type == EVT_GAME_TIMER:
+                TimerTick(ScreenBlocks)
             if event.type == EVT_START_MUSIC_DONE:
                 print("music done")
             if event.type == EVT_SCREEN_ON:
@@ -102,7 +98,7 @@ def startGame(KeyDownHandler):
             if event.type == EVT_SCREEN_READY:
                 print("screen ready")
                 background = background_on
-                pygame.time.set_timer(EVT_MOVE, 200)
+                pygame.time.set_timer(EVT_GAME_TIMER, 10)
             if event.type == KEYDOWN:
                 if pressed_keys[K_UP]:
                     keyToProcess = KEY_ARROW_UP
@@ -133,4 +129,4 @@ def startGame(KeyDownHandler):
                     DISPLAYSURF.blit(squareOnImage, (5 + colIx * (SQUARE_SIZE + SPACING), (5 + rowIx * (SQUARE_SIZE + SPACING))))
             
         pygame.display.update()
-        FramePerSec.tick(FPS)
+        FramePerSec.tick(FPS) # burlanu'
