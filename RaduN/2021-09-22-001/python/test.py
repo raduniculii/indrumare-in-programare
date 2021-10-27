@@ -2,7 +2,7 @@
 from constants import *
 #importam functia startGame din gameStart.py
 from gameStart import startGame
-import pygame, sys
+import pygame, sys, random
 #definite doar in test.py, le puteti denumi cum vreti voi si sa faceti si 100 daca vreti
 # myX = 0
 # myY = 0
@@ -37,10 +37,22 @@ import pygame, sys
 
 #     blocks[myX][myY] = True
 
-wormXCoord = [5,5,5,5]
-wormYCoord = [8,9,10,11]
+
+
+wormXCoord = []
+wormYCoord = []
 dirY = -1 # -1, 0, +1
 dirX = 0 # -1, 0, +1
+pointX = random.randint(0, COLUMNS - 1)
+pointY = random.randint(0, ROWS - 1)
+
+
+def resetWorm():
+    global wormXCoord, wormYCoord
+    wormXCoord = [5,5,5,5]
+    wormYCoord = [8,9,10,11]
+
+resetWorm()
 
 def DrawWorm(IsOn,blocks):
     for i in range(0,len(wormXCoord)):
@@ -66,19 +78,31 @@ def keyDownHandler(key, blocks):
     elif(key == KEY_SPACE):
         pass
 
-speed_in_intervals = 50
+speed_in_intervals = 25
 intervalsSoFar = 0
 
+lifeCount = 3
+
 def timerTick(blocks):
-    global intervalsSoFar
+    global intervalsSoFar, pointX, pointY
+    blocks[pointX][pointY] = True
+
     if intervalsSoFar == 0:
         global wormXCoord, wormYCoord
+        global dirY, dirX, lifeCount
+        newX = wormXCoord[0] + dirX
+        newY = wormYCoord[0] + dirY
         
-        #VALIDATI noile X si Y aici !!!!
-        # AICI
-        # AICI
-
         DrawWorm(False,blocks)
+
+        if not(0 <= newX < COLUMNS and 0 <= newY < ROWS) or (newX == wormXCoord[1] and newY == wormYCoord[1]):
+            resetWorm() 
+            lifeCount -= 1   
+            dirX = 0
+            dirY = -1     
+
+        if lifeCount <= 0:
+            sys.exit()
 
         #remove last block
         wormXCoord.pop() 
