@@ -48,10 +48,20 @@ pointY = 0
 
 randomIndex = 2
 def randomX():
-    return random.randint(0, COLUMNS - 1)
+    global randomIndex
+    if randomIndex < len(wormXCoord) + 2:
+        randomIndex +=1
+        return wormXCoord [(randomIndex - 1) % len(wormXCoord)] 
+    else:
+        return random.randint(0, COLUMNS - 1)
 
 def randomY():
-    return random.randint(0, ROWS - 1)
+    global randomIndex
+    if randomIndex < len(wormYCoord) + 2:
+        randomIndex +=1
+        return wormYCoord [(randomIndex - 1) % len(wormYCoord)]
+    else:
+        return random.randint(0, ROWS - 1)
 
 
 
