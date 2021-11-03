@@ -43,16 +43,43 @@ wormXCoord = []
 wormYCoord = []
 dirY = -1 # -1, 0, +1
 dirX = 0 # -1, 0, +1
-pointX = random.randint(0, COLUMNS - 1)
-pointY = random.randint(0, ROWS - 1)
+pointX = 0
+pointY = 0
+
+randomIndex = 2
+def randomX():
+    return random.randint(0, COLUMNS - 1)
+
+def randomY():
+    return random.randint(0, ROWS - 1)
 
 
-def resetWorm():
+
+def showNewPoint(blocks):
+    global pointX, pointY
+    blocks[pointX][pointY] = False
+    resetPoint = True
+    while resetPoint:
+        pointX = randomX()
+        pointY = randomY()
+        resetPoint = False
+        for i in range (0,len(wormXCoord)):
+            x = wormXCoord[i]
+            y = wormYCoord[i]
+            if  pointX == x and pointY ==y:
+                resetPoint = True
+
+
+
+def resetWorm(blocks):
     global wormXCoord, wormYCoord
     wormXCoord = [5,5,5,5]
     wormYCoord = [8,9,10,11]
 
-resetWorm()
+    showNewPoint(blocks)
+
+
+
 
 def DrawWorm(IsOn,blocks):
     for i in range(0,len(wormXCoord)):
@@ -82,11 +109,15 @@ speed_in_intervals = 25
 intervalsSoFar = 0
 
 lifeCount = 3
+gameStarted = False
 
 def timerTick(blocks):
-    global intervalsSoFar, pointX, pointY
+    global intervalsSoFar, pointX, pointY, gameStarted
     blocks[pointX][pointY] = True
 
+    if not gameStarted:
+        resetWorm(blocks)
+        gameStarted = True
     if intervalsSoFar == 0:
         global wormXCoord, wormYCoord
         global dirY, dirX, lifeCount
@@ -96,7 +127,7 @@ def timerTick(blocks):
         DrawWorm(False,blocks)
 
         if not(0 <= newX < COLUMNS and 0 <= newY < ROWS) or (newX == wormXCoord[1] and newY == wormYCoord[1]):
-            resetWorm() 
+            resetWorm(blocks) 
             lifeCount -= 1   
             dirX = 0
             dirY = -1     
