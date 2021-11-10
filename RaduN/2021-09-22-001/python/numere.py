@@ -19,5 +19,9 @@ print((numar // 100 ) % 10)
 print((numar // 1000 ) % 10)
 print((numar // 10000 ) % 10)
 
-
 #print("doisprezece mii trei sute patruzeci si cinci")
+nr = 123
+l = []
+l.append((nr // 1 ) % 10)
+l.append((nr // 10 ) % 10)
+print(len(l))
