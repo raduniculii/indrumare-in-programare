@@ -63,8 +63,6 @@ def randomY():
     else:
         return random.randint(0, ROWS - 1)
 
-
-
 def showNewPoint(blocks):
     global pointX, pointY
     blocks[pointX][pointY] = False
@@ -79,16 +77,12 @@ def showNewPoint(blocks):
             if  pointX == x and pointY ==y:
                 resetPoint = True
 
-
-
 def resetWorm(blocks):
     global wormXCoord, wormYCoord
     wormXCoord = [5,5,5,5]
     wormYCoord = [8,9,10,11]
 
     showNewPoint(blocks)
-
-
 
 
 def DrawWorm(IsOn,blocks):
@@ -150,8 +144,8 @@ def timerTick(blocks):
         wormYCoord.pop()
         
         #insert a new block at the beginning, using the new position for it based on dirX and dirY
-        wormXCoord.insert(0, wormXCoord[0] + dirX) 
-        wormYCoord.insert(0, wormYCoord[0] + dirY) 
+        wormXCoord.insert(0, newX)
+        wormYCoord.insert(0, newY)
 
         DrawWorm(True,blocks)
 
