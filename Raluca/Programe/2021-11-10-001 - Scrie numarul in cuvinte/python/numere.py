@@ -6,7 +6,7 @@ listaCifre = ["zero", "unu", "doi", "trei", "patru", "cinci", "sase", "sapte", "
 
 listaNumere = ["zece", "unsprezece", "doisprezece", "treisprezece", "paisprezece", "cincisprezece", "șaisprezece", "șaptesprezece", "optsprezece", "nouăsprezece"]
 
-listaZeci = ["douăzeci", "treizeci", "patruzecici", "cincizecici", "șaizeci", "șaptezecici", "optzeci", "nouăzeci"]
+listaZeci = ["douăzeci", "treizeci", "patruzeci", "cincizeci", "șaizeci", "șaptezeci", "optzeci", "nouăzeci"]
 
 listaSute = ["o sută", "două sute", "trei sute","patru sute", "cinci sute", "șase sute", "șapte sute", "opt sute", "nouă sute"]
 
@@ -25,9 +25,7 @@ def ordinDeMarime(numar):
 if ordinDeMarime(numar) > 5:
     print("Hai ca te intreci cu gluma! Alege un numar cu ordinul de marime cel mult 5.")
 
-
 print("Ordinul de marime este: " + str(ordinDeMarime(numar)))
-
  
 def scriereNumar(numar):
     if (ordinDeMarime(numar) == 1): 
@@ -41,11 +39,13 @@ def scriereNumar(numar):
     
     if (ordinDeMarime(numar) == 4):
         print(scriereMii(numar))
-        
-
+    
+    if (ordinDeMarime(numar) == 5):
+        print(scriereZeciDeMii(numar))
+      
 def scriereCifre(numar):
     global lista
-    lista = (listaCifre[numar % 10])
+    lista = (listaCifre[numar])
     return lista
 
 def scriereZeci(numar):
@@ -60,13 +60,18 @@ def scriereZeci(numar):
 
 def scriereSute(numar):
     global lista
-    if (numar % 100 == 0) and (numar % 10 == 0): 
+    if (numar % 1000 == 0): #ma ajuta la zeci de mii: ex pentru 12000
+        lista = " " 
+    elif (((numar % 1000) // 100 == 0) and ((numar % 10000) // 10) != 0): #ma ajuta la zeci de mii: ex pentru 12090
+        lista = scriereZeci(numar % 100)
+    elif (((numar % 1000) // 100 == 0) and ((numar % 10000) // 10) == 0): #ma ajuta la zeci de mii: ex pentru 12009
+        lista = scriereCifre(numar % 10)
+    elif (numar % 100 == 0) and (numar % 10 == 0): 
         lista = listaSute[numar//100 - 1]
     elif ((numar // 10) % 10 == 0) and (numar % 10 != 0): 
         lista = listaSute[numar//100 - 1] + " " + listaCifre[numar % 10]
     else:
-        lista = listaSute[numar//100 - 1] + scriereZeci(numar % 100)
-
+        lista = listaSute[numar//100 - 1] + " " + scriereZeci(numar % 100)
     return lista
 
 def scriereMii(numar):
@@ -81,5 +86,13 @@ def scriereMii(numar):
         lista = listaMii[numar//1000 - 1] + " " + scriereSute(numar % 1000)
     return lista
 
+def scriereZeciDeMii(numar):
+    global lista
+    if (numar // 10000 == 1):
+        lista = scriereZeci(numar // 1000) + " mii " + scriereSute(numar % 1000)
+   
+    elif (numar // 10000 != 1):
+        lista = scriereZeci(numar // 1000) + " de mii " + scriereSute(numar % 1000)
+    return lista
 
 scriereNumar(numar)
