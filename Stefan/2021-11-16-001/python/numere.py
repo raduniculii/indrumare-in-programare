@@ -38,13 +38,17 @@ if doilea_digit >1 and doilea_digit <=2:
 if doilea_digit >2 :
     temp_str = temp_str + unu_zece[doilea_digit] + " sute " 
 
-if treilea_digit > 1:
+
+if treilea_digit > 1 and patrulea_digit>0:
     temp_str = temp_str + douazeci_nouazeci[treilea_digit] + " si "
 if treilea_digit == 1:
     temp_str = temp_str + unsprezece_nouasprezece[patrulea_digit] + " "
+
+if patrulea_digit==0:
+    temp_str = temp_str + douazeci_nouazeci[treilea_digit]
+
 else:
-    if patrulea_digit:
+      if patrulea_digit >0:
         temp_str = temp_str + unu_zece[patrulea_digit] + " "
-if temp_str[-1] == " ": # Daca ultimul digit e spatiu
-    temp_str = temp_str[0:-1] # sterge spatiul
+
 print (temp_str)
