@@ -39,6 +39,10 @@ douazeci_nouazeci=["zero", "zece", "douazeci", "treizeci", "patruzeci", "cincize
 temp_str = ""
 if numar == 0: # Daca numarul e 0
     temp_str = "zero " # inistializare temp_str cu zero
+if numar < 0 or numar > 9999:
+    print("Numar invalid. Incercati cu numere intre 0 si 9999")
+    exit()
+
 # calculul fiecarui digit
 primul_digit = numar // 1000
 doilea_digit = (numar // 100 ) % 10
