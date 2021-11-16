@@ -4,7 +4,8 @@
 
 import sys
 
-numar = int(sys.argv[1])
+# numar = int(sys.argv[1])
+numar = int(input('Introduceti numarul: '))
 
 
 unu_zece = ["zero", "unu", "doi", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
@@ -47,8 +48,8 @@ if treilea_digit == 1:
 if patrulea_digit==0:
     temp_str = temp_str + douazeci_nouazeci[treilea_digit]
 
-else:
-      if patrulea_digit >0:
-        temp_str = temp_str + unu_zece[patrulea_digit] + " "
+# else:
+if patrulea_digit >0:
+    temp_str = temp_str + unu_zece[patrulea_digit] + " "
 
-print (temp_str)
+print ("Numarul " +str(numar) +" scris in cifre este: "  +temp_str)
