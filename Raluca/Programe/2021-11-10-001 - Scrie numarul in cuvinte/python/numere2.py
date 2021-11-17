@@ -8,13 +8,11 @@ listaNumere = ["zece", "unsprezece", "doisprezece", "treisprezece", "paisprezece
 
 listaZeci = ["douăzeci", "treizeci", "patruzecici", "cincizecici", "șaizeci", "șaptezecici", "optzeci", "nouăzeci"]
 
-lista = ["o", "doua", "suta", "sute", "mie", "mii"]
+listaSpeciala = ["zero", "o", "două", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
 
-listaNumarScris = []
+listaNumar = []
 
-
-if numar >100000:
-    print("Hai ca te intreci cu gluma! Alege un numar mai mic.")
+lista = []
 
 def ordinDeMarime(numar):
     index = 1
@@ -23,29 +21,33 @@ def ordinDeMarime(numar):
         numar = numar // 10
     return index
 
+if ordinDeMarime(numar) > 6:
+    print("Hai ca te intreci cu gluma! Alege un numar mai mic.")
+
 print("Ordinul de marime este: " + str(ordinDeMarime(numar)))
 
 def scriereNumar(numar):
+    global lista
     index = 0
     numarVar = numar
     while index < ordinDeMarime(numar):
-        global listaCifre, listaNumere, listaZeci, lista
-        listaNumarScris.append(listaCifre[numarVar % 10])
+        listaNumar.append(listaCifre[numarVar % 10])
         index += 1
         numarVar = numarVar // 10 
-    sortareListaNumarScris(listaNumarScris)
-    print(listaNumarScris)   
-   
-def sortareListaNumarScris(listaNumarScris):
-    lungimeLista = (len(listaNumarScris) - 1)
+    sortareListaNumar(listaNumar)
+    print(listaNumar)  
+
+      
+def sortareListaNumar(listaNumar):
+    lungimeLista = (len(listaNumar) - 1)
     index = 0 
-    varindex = listaNumarScris[0]
-    while (index < (len(listaNumarScris)/2)) and len(listaNumarScris) > 1:
-        listaNumarScris[index] = listaNumarScris[lungimeLista]
-        listaNumarScris[lungimeLista] = varindex
+    varindex = listaNumar[0]
+    while (index < (len(listaNumar)/2)) and len(listaNumar) > 1:
+        listaNumar[index] = listaNumar[lungimeLista]
+        listaNumar[lungimeLista] = varindex
         lungimeLista -= 1
         index += 1
-        varindex = listaNumarScris[index]
+        varindex = listaNumar[index]
 
 scriereNumar(numar)
 
