@@ -3,8 +3,49 @@ import sys
 #citire argument de la consola... e.g: "py numere.py 12345" fara ghilimele
 #numar = int(sys.argv[1])
 
-listaCifre = ["zero", "unu", "doi", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
+listaCifreMasculin = ["zero", "unu", "doi", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
+listaCifreNeutru = ["zero", "un", "doua", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
+listaCifreFeminin = ["zero", "o", "doua", "trei", "patru", "cinci", "sase", "sapte", "opt", "noua"]
+sprezece = ["zece", "unsprezece", "doisprezece", "treisprezece", "paisprezece", "cincisprezece", "șaisprezece", "șaptesprezece", "optsprezece", "nouăsprezece"]
+zeci = ["douăzeci", "treizeci", "patruzeci", "cincizeci", "șaizeci", "șaptezeci", "optzeci", "nouăzeci"]
+sute = ["o sută", "două sute", "trei sute", "patru sute", "cinci sute", "șase sute", "șapte sute", "opt sute", "nouă sute"]
 
+numar = int(sys.argv[1])
+
+arrNumar = []
+
+if (numar > 999):
+    print("prea mare")
+    sys.exit()
+
+def myFc(gen, numar):
+    if (numar >= 100):
+        arrNumar.append(sute[(numar // 100) - 1])
+        numar = numar % 100
+
+    if (numar >= 20):
+        arrNumar.append(zeci[(numar // 10) - 2])
+        numar = numar % 10
+        if numar != 0:
+            arrNumar.append("si")
+
+    if (numar >= 10):
+        arrNumar.append(sprezece[numar % 10])
+        numar = numar % 10
+    else:
+        if(gen == "m"):
+            arrNumar.append(listaCifreMasculin[numar % 10])
+        elif gen == "n":
+            arrNumar.append(listaCifreNeutru[numar % 10])
+        elif gen == "f":
+            arrNumar.append(listaCifreFeminin[numar % 10])
+        else:
+            print("scandal")
+            sys.exit()
+
+myFc("n", numar)
+print(" ".join(arrNumar))
+sys.exit()
 #https://numar-text.calculators.ro/numerele-cardinale-reguli-de-scriere-din-cifre-in-cuvinte-cu-litere.php
 #print("doisprezece mii trei sute patruzeci si cinci")
 
