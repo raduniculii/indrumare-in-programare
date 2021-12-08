@@ -106,6 +106,7 @@ def numarInText(numar):
 numarInText(numar)
 print(" ".join(arrCuvinteNumar))
 sys.exit()
+
 #https://numar-text.calculators.ro/numerele-cardinale-reguli-de-scriere-din-cifre-in-cuvinte-cu-litere.php
 #print("doisprezece mii trei sute patruzeci si cinci")
 
