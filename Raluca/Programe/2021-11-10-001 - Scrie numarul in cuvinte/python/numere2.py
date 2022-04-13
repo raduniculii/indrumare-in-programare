@@ -52,6 +52,10 @@ def sortareListaNumar(listaNumar):
 scriereNumar(numar)
 
 
+dict = {"var1":1, "var2":6}
+
+print(dict["var2"])
+
 
 #elif numar < 10 and numar >= 0:
  #       print(listaCifre[numar])

@@ -1,0 +1,16 @@
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.exe
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.deps.json
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.runtimeconfig.json
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.runtimeconfig.dev.json
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.dll
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\ref\Camere.dll
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\bin\Debug\net5.0\Camere.pdb
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.csproj.AssemblyReference.cache
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.GeneratedMSBuildEditorConfig.editorconfig
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.AssemblyInfoInputs.cache
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.AssemblyInfo.cs
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.csproj.CoreCompileInputs.cache
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.dll
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\ref\Camere.dll
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.pdb
+D:\10percent\ProgramareRN\Programe\2022-04-13\Camere\obj\Debug\net5.0\Camere.genruntimeconfig.cache
