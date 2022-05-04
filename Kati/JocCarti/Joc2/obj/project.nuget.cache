@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "XFZh5opyRucLAW3mlFsXHm5beRyQ/CAf5EqzJzhefHaONRVRAf7Y/u6RKuATrky8JLX+UpQZLRfoUSFhQim7rg==",
+  "success": true,
+  "projectFilePath": "D:\\Courses\\CursRadu\\Cursuri\\Curs42-05-04\\ProiectCurs\\Joc2\\Joc2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gykat\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}

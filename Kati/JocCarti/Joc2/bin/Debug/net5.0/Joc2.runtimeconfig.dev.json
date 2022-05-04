@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\gykat\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\gykat\\.nuget\\packages"
+    ]
+  }
+}
