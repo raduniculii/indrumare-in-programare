@@ -4,5 +4,7 @@ namespace Joc2
     {
         public int Valoare { get; set; }
         public string Culoare { get; set; }
+
+        public string Nume { get; set; }
     }
 }
