@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Hq+bTcC/nSL5/lEt0LUTZ527N+bb5YaTRX9jZtr1uJc9rO4utXlF/S4NVEfrZP0SAbrfWnsjBDybw69wiRobHg==",
+  "dgSpecHash": "a45453isTzhHM0jNbCGDn6Wq3sN8E4PJBcWQhNPOf4h3w0yGNfcE39Mq++e+M9eHYDvFI1Aqdz7xCadLifY0aA==",
   "success": true,
-  "projectFilePath": "D:\\Courses\\CursRadu\\Cursuri\\Curs43-05-11\\ProiectCurs\\Joc2\\Joc2.csproj",
+  "projectFilePath": "D:\\Courses\\CursRadu\\Cursuri\\Curs44-05.18\\ProiectCurs\\Joc2\\Joc2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gykat\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
   ],
