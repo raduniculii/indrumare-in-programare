@@ -137,6 +137,91 @@ namespace Joc2
                 System.Console.WriteLine();
             }
 
+
+        manaJucator.Sort((c1, c2)=>c1.Valoare.CompareTo(c2.Valoare));
+
+            bool isRoyalFlush (List<CarteJoc> manaJucator)
+            {
+                var numarulPrimeiCarti = manaJucator[0].Valoare;
+                return isStraightFlush(manaJucator) && numarulPrimeiCarti == 10;
+
+// Royal Flush >> consecutiv de aceasi culoare de la 10 pana la as
+                
+            }
+
+            bool isStraightFlush (List<CarteJoc> manaJucator)
+            {
+                return isFlush(manaJucator) && isStraight(manaJucator);
+
+// Straight Flush>> consecutiv de aceasi culoare  care nu e royal flush
+
+            }
+
+            bool isFourOfAKind (List<CarteJoc> manaJucator)
+            {
+                var primaCarte = (
+                    from carte in manaJucator
+                    group carte by carte.Valoare into numereCarti
+                    orderby numereCarti.Count() descending
+                    select new { Valoare = numereCarti.Key, Aparitii = numereCarti.Count() }
+                ).First();
+                return primaCarte.Aparitii == 4;
+
+
+// from student in students
+//     group student by student.LastName into newGroup
+//     orderby newGroup.Key
+//     select newGroup;
+
+
+// Four of a Kind>> 4 de acelasi numar
+// 
+
+
+            }
+
+            bool isFullHouse (List<CarteJoc> manaJucator)
+            {
+// Full House>> 3 cu 2 de numar 
+
+                return false;
+            }
+
+            bool isFlush (List<CarteJoc> manaJucator)
+            {
+// Flush>> 5 de aceasi culoare si sa nu fie royal sau straight flush
+
+                return false;
+            }
+
+            bool isStraight (List<CarteJoc> manaJucator)
+            {
+// Straight	>> numere consecutive si sa nu fie royal sau straight flush
+                
+                return false;
+            }
+
+            bool isThreeOfAKind (List<CarteJoc> manaJucator)
+            {
+// Three of a Kind>> 3 de acelasi fel
+
+                return false;
+            }
+
+            bool isTwoPairs (List<CarteJoc> manaJucator)
+            {
+// Two Pair	>> 2 perechi
+
+                return false;
+            }
+
+            bool isJacksOrBetter (List<CarteJoc> manaJucator)
+            {
+// Jacks or Better>> 1 pereche de la valet in sus
+                return false;
+            }
+
+
 /*
             System.Console.WriteLine("Cartile de joc sunt:");
 
@@ -182,15 +267,16 @@ namespace Joc2
 
 https://www.casinoreports.ca/video-poker/rules/
 
-Coins	1	2	3	4	5
-Royal Flush	250	500	750	1000	4000
-Straight Flush	50	100	150	200	250
-Four of a Kind	25	50	75	100	125
-Full House	9	18	27	36	45
-Flush	6	12	18	24	30
-Straight	4	8	12	16	20
-Three of a Kind	3	6	9	12	15
-Two Pair	2	4	6	8	10
-Jacks or Better	1	2	3	4	5
+Coins	            1	2	3	4	5
+Royal Flush	       250	500	750	1000	4000  >> consecutiv de aceasi culoare de la 10 pana la as
+Straight Flush	    50	100	150	200	250   >> consecutiv de aceasi culoare  care nu e royal flush
+Four of a Kind	    25	50	75	100	125   >> 4 de acelasi numar
+Full House  	    9	18	27	36	45    >> 3 cu 2 de numar 
+Flush	            6	12	18	24	30    >> 5 de aceasi culoare si sa nu fie royal sau straight flush
+Straight	        4	8	12	16	20    >> numere consecutive si sa nu fie royal sau straight flush
+Three of a Kind	    3	6	9	12	15    >> 3 de acelasi fel
+Two Pair	        2	4	6	8	10    >> 2 perechi
+Jacks or Better	    1	2	3	4	5     >> 1 pereche de la valet in sus
+
 
 */
