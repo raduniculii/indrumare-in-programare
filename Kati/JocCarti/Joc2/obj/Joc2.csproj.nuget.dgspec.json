@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\Joc2\\Joc2.csproj": {}
+    "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\Joc2\\Joc2.csproj": {}
   },
   "projects": {
-    "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\Joc2\\Joc2.csproj": {
+    "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\Joc2\\Joc2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\Joc2\\Joc2.csproj",
+        "projectUniqueName": "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\Joc2\\Joc2.csproj",
         "projectName": "Joc2",
-        "projectPath": "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\Joc2\\Joc2.csproj",
+        "projectPath": "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\Joc2\\Joc2.csproj",
         "packagesPath": "C:\\Users\\gykat\\.nuget\\packages\\",
-        "outputPath": "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\Joc2\\obj\\",
+        "outputPath": "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\Joc2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "D:\\Courses\\CursRadu\\Cursuri\\Curs45-05.25\\ProiectCurs\\NuGet.Config",
+          "D:\\Courses\\CursRadu\\Cursuri\\Curs46-06.01\\ProiectCurs\\NuGet.Config",
           "C:\\Users\\gykat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

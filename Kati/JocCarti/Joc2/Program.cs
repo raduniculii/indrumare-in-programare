@@ -4,6 +4,18 @@ using System.Linq;
 
 namespace Joc2
 {
+
+    class AparitiiValoare {
+        public int Valoare { get; set; }
+        public int Aparitii { get; set; }
+        public AparitiiValoare (int val){
+            Valoare = val;
+            Aparitii = 1;
+        
+        }
+        
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -140,6 +152,36 @@ namespace Joc2
 
         manaJucator.Sort((c1, c2)=>c1.Valoare.CompareTo(c2.Valoare));
 
+            List<AparitiiValoare> numaraValorile(List<CarteJoc> manaJucator){
+                var Aparitii = new List<AparitiiValoare>();
+                foreach (var carte in manaJucator)
+                {
+                    var gasit = false;
+
+                    foreach (var aparitie in Aparitii)
+                    {
+                        if (aparitie.Valoare == carte.Valoare)
+                        {
+                            aparitie.Aparitii++;
+                            gasit = true;
+                            break;
+
+                        }
+                    }
+
+                    if (!gasit)
+                    {
+                        Aparitii.Add(new AparitiiValoare(carte.Valoare));
+                    }
+                    
+                }
+                Aparitii.Sort((a , b ) => b.Aparitii.CompareTo(a.Aparitii));  // sorteaza descendent 
+                // 3.compareTo 5 => (3-5)=-2
+                // negativ = a e primul
+                // pozitiv = b e primul 
+                
+                return Aparitii;   
+            }
             bool isRoyalFlush (List<CarteJoc> manaJucator)
             {
                 var numarulPrimeiCarti = manaJucator[0].Valoare;
@@ -159,66 +201,109 @@ namespace Joc2
 
             bool isFourOfAKind (List<CarteJoc> manaJucator)
             {
-                var primaCarte = (
-                    from carte in manaJucator
-                    group carte by carte.Valoare into numereCarti
-                    orderby numereCarti.Count() descending
-                    select new { Valoare = numereCarti.Key, Aparitii = numereCarti.Count() }
-                ).First();
-                return primaCarte.Aparitii == 4;
+                var Aparitii = numaraValorile(manaJucator);
 
+                return Aparitii[0].Aparitii == 4;
+
+// 2 - 3
+// 7 - 1 
+// 10 - 1
 
 // from student in students
 //     group student by student.LastName into newGroup
 //     orderby newGroup.Key
 //     select newGroup;
 
-
 // Four of a Kind>> 4 de acelasi numar
-// 
 
 
             }
 
             bool isFullHouse (List<CarteJoc> manaJucator)
             {
+                var Aparitii = numaraValorile(manaJucator);
+
+                return (Aparitii[0].Aparitii == 3) && (Aparitii[1].Aparitii == 2);
+
 // Full House>> 3 cu 2 de numar 
 
-                return false;
             }
 
             bool isFlush (List<CarteJoc> manaJucator)
             {
+                var culoareaPrimeiCarti = manaJucator[0].Culoare;
+                foreach (var carte in manaJucator)
+                {
+                    if (carte.Culoare != culoareaPrimeiCarti){
+                        return false;
+                    }
+                }
+                return true;
+
+
+// var toateLaFel = true;
+// foreach(var carte in manaJucator){
+//     if(carte.Culoare != culoareaPrimeiCarti){
+//         toateLaFel = false;
+//     }
+// }
+// return toateLaFel;
+
+
+//cu greseala 
+// var toateLaFel = false;
+// foreach(var carte in manaJucator){
+//     if(carte.Culoare == primaCuloare){
+//         toateLaFel = true;
+//     }
+//     else toateLaFel = false;
+// }
+
+               
 // Flush>> 5 de aceasi culoare si sa nu fie royal sau straight flush
 
-                return false;
             }
 
             bool isStraight (List<CarteJoc> manaJucator)
             {
+
+                
 // Straight	>> numere consecutive si sa nu fie royal sau straight flush
+
                 
                 return false;
             }
 
             bool isThreeOfAKind (List<CarteJoc> manaJucator)
             {
+                var Aparitii = numaraValorile(manaJucator);
+
+                return (Aparitii[0].Aparitii == 3) && (!isFullHouse(manaJucator));
+
 // Three of a Kind>> 3 de acelasi fel
 
-                return false;
+
             }
 
             bool isTwoPairs (List<CarteJoc> manaJucator)
             {
+                var Aparitii = numaraValorile(manaJucator);
+
+                return (Aparitii[0].Aparitii == 2) && (Aparitii[1].Aparitii == 2);
+
+
 // Two Pair	>> 2 perechi
 
-                return false;
             }
 
             bool isJacksOrBetter (List<CarteJoc> manaJucator)
             {
+                var Aparitii = numaraValorile(manaJucator);
+
+                return (Aparitii[0].Aparitii == 2) && (Aparitii[0].Valoare >= 11) && (!isTwoPairs(manaJucator));
+
 // Jacks or Better>> 1 pereche de la valet in sus
-                return false;
+
             }
 
 
