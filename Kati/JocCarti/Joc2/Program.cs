@@ -25,7 +25,8 @@ namespace Joc2
             const char CHR_TREFLA = (char)5;
             const char CHR_NEAGRA = (char)6;
 
-            void arataCuRosu(string str){
+            void arataCuRosu(string str)
+            {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(str);
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -48,33 +49,36 @@ namespace Joc2
             {
                 for (int i = 2; i < 15; i++)
                 {
-                    var carteNoua = new CarteJoc(){ 
-                        Culoare = culoare, Valoare = i             
+                    var carteNoua = new CarteJoc()
+                    {
+                        Culoare = culoare,
+                        Valoare = i
                     };
 
-                if ( i <= 10){
-                    carteNoua.Nume =i.ToString();
+                    if (i <= 10)
+                    {
+                        carteNoua.Nume = i.ToString();
 
-                }
-                else if (i == 11)
-                {
-                    carteNoua.Nume = "J";
-                }
-                else if (i == 12)
-                {
-                    carteNoua.Nume = "Q";
-                }         
-                else if (i == 13)
-                {
-                    carteNoua.Nume = "K";
-                }                
-                else
-                {
-                    carteNoua.Nume = "A";
-                }                          
+                    }
+                    else if (i == 11)
+                    {
+                        carteNoua.Nume = "J";
+                    }
+                    else if (i == 12)
+                    {
+                        carteNoua.Nume = "Q";
+                    }
+                    else if (i == 13)
+                    {
+                        carteNoua.Nume = "K";
+                    }
+                    else
+                    {
+                        carteNoua.Nume = "A";
+                    }
 
                     pachetCarti.Add(carteNoua);
-                }    
+                }
             }
 
             Random rnd = new Random();
@@ -85,7 +89,7 @@ namespace Joc2
             var n = 5;
 
 
-            manaJucator = pachetAmestecat.GetRange(0 , n);
+            manaJucator = pachetAmestecat.GetRange(0, n);
             pachetAmestecat.RemoveRange(0, n);
 
             System.Console.WriteLine("Cartile jucatorului sunt:");
@@ -104,11 +108,11 @@ namespace Joc2
                 else if (carte.Culoare == "trefla")
                 {
                     arataTrefla();
-                }    
-                else 
+                }
+                else
                 {
                     arataNeagra();
-                }        
+                }
                 System.Console.WriteLine();
             }
 
@@ -121,38 +125,17 @@ namespace Joc2
             foreach (var pozitie in impartite)
             {
 
-                manaJucator[int.Parse(pozitie)-1] = pachetAmestecat[0];
+                manaJucator[int.Parse(pozitie) - 1] = pachetAmestecat[0];
                 pachetAmestecat.RemoveAt(0);
 
             }
             System.Console.WriteLine("Noile carti sunt:");
+            AfiseazaMana(manaJucator);
 
-            foreach (var carte in manaJucator)
+            manaJucator.Sort((c1, c2) => c1.Valoare.CompareTo(c2.Valoare));
+
+            List<AparitiiValoare> numaraValorile(List<CarteJoc> manaJucator)
             {
-                System.Console.Write($"{carte.Nume}");
-                if (carte.Culoare == "inima rosie")
-                {
-                    arataInima();
-                }
-                else if (carte.Culoare == "romb")
-                {
-                    arataRomb();
-                }
-                else if (carte.Culoare == "trefla")
-                {
-                    arataTrefla();
-                }    
-                else 
-                {
-                    arataNeagra();
-                }        
-                System.Console.WriteLine();
-            }
-
-
-        manaJucator.Sort((c1, c2)=>c1.Valoare.CompareTo(c2.Valoare));
-
-            List<AparitiiValoare> numaraValorile(List<CarteJoc> manaJucator){
                 var Aparitii = new List<AparitiiValoare>();
                 foreach (var carte in manaJucator)
                 {
@@ -173,164 +156,248 @@ namespace Joc2
                     {
                         Aparitii.Add(new AparitiiValoare(carte.Valoare));
                     }
-                    
+
                 }
-                Aparitii.Sort((a , b ) => b.Aparitii.CompareTo(a.Aparitii));  // sorteaza descendent 
-                // 3.compareTo 5 => (3-5)=-2
-                // negativ = a e primul
-                // pozitiv = b e primul 
-                
-                return Aparitii;   
+                Aparitii.Sort((a, b) => b.Aparitii.CompareTo(a.Aparitii));  // sorteaza descendent 
+                                                                            // 3.compareTo 5 => (3-5)=-2
+                                                                            // negativ = a e primul
+                                                                            // pozitiv = b e primul 
+
+                return Aparitii;
             }
-            bool isRoyalFlush (List<CarteJoc> manaJucator)
+            bool isRoyalFlush(List<CarteJoc> manaJucator)
             {
                 var numarulPrimeiCarti = manaJucator[0].Valoare;
                 return isStraightFlush(manaJucator) && numarulPrimeiCarti == 10;
 
-// Royal Flush >> consecutiv de aceasi culoare de la 10 pana la as
-                
+                // Royal Flush >> consecutiv de aceasi culoare de la 10 pana la as
+
             }
 
-            bool isStraightFlush (List<CarteJoc> manaJucator)
+            bool isStraightFlush(List<CarteJoc> manaJucator)
             {
                 return isFlush(manaJucator) && isStraight(manaJucator);
 
-// Straight Flush>> consecutiv de aceasi culoare  care nu e royal flush
+                // Straight Flush>> consecutiv de aceasi culoare  care nu e royal flush
 
             }
 
-            bool isFourOfAKind (List<CarteJoc> manaJucator)
+            bool isFourOfAKind(List<CarteJoc> manaJucator)
             {
                 var Aparitii = numaraValorile(manaJucator);
 
                 return Aparitii[0].Aparitii == 4;
 
-// 2 - 3
-// 7 - 1 
-// 10 - 1
+                // 2 - 3
+                // 7 - 1 
+                // 10 - 1
 
-// from student in students
-//     group student by student.LastName into newGroup
-//     orderby newGroup.Key
-//     select newGroup;
+                // from student in students
+                //     group student by student.LastName into newGroup
+                //     orderby newGroup.Key
+                //     select newGroup;
 
-// Four of a Kind>> 4 de acelasi numar
+                // Four of a Kind>> 4 de acelasi numar
 
 
             }
 
-            bool isFullHouse (List<CarteJoc> manaJucator)
+            bool isFullHouse(List<CarteJoc> manaJucator)
             {
                 var Aparitii = numaraValorile(manaJucator);
 
                 return (Aparitii[0].Aparitii == 3) && (Aparitii[1].Aparitii == 2);
 
-// Full House>> 3 cu 2 de numar 
+                // Full House>> 3 cu 2 de numar 
 
             }
 
-            bool isFlush (List<CarteJoc> manaJucator)
+            bool isFlush(List<CarteJoc> manaJucator)
             {
                 var culoareaPrimeiCarti = manaJucator[0].Culoare;
                 foreach (var carte in manaJucator)
                 {
-                    if (carte.Culoare != culoareaPrimeiCarti){
+                    if (carte.Culoare != culoareaPrimeiCarti)
+                    {
                         return false;
                     }
                 }
                 return true;
 
 
-// var toateLaFel = true;
-// foreach(var carte in manaJucator){
-//     if(carte.Culoare != culoareaPrimeiCarti){
-//         toateLaFel = false;
-//     }
-// }
-// return toateLaFel;
+                // var toateLaFel = true;
+                // foreach(var carte in manaJucator){
+                //     if(carte.Culoare != culoareaPrimeiCarti){
+                //         toateLaFel = false;
+                //     }
+                // }
+                // return toateLaFel;
 
 
-//cu greseala 
-// var toateLaFel = false;
-// foreach(var carte in manaJucator){
-//     if(carte.Culoare == primaCuloare){
-//         toateLaFel = true;
-//     }
-//     else toateLaFel = false;
-// }
+                //cu greseala 
+                // var toateLaFel = false;
+                // foreach(var carte in manaJucator){
+                //     if(carte.Culoare == primaCuloare){
+                //         toateLaFel = true;
+                //     }
+                //     else toateLaFel = false;
+                // }
 
-               
-// Flush>> 5 de aceasi culoare si sa nu fie royal sau straight flush
+
+                // Flush>> 5 de aceasi culoare si sa nu fie royal sau straight flush
 
             }
 
-            bool isStraight (List<CarteJoc> manaJucator)
+            bool isStraight(List<CarteJoc> manaJucator)
             {
 
-                
-// Straight	>> numere consecutive si sa nu fie royal sau straight flush
+                for (int i = 0; i < manaJucator.Count - 1; i++)
+                {
+                    if (manaJucator[i + 1].Valoare - manaJucator[i].Valoare != 1) return false;
 
-                
-                return false;
+                }
+                return true;
+
+                // var valoarePrecedenta = manaJucator[0].Valoare;
+
+                // foreach (var valoare in manaJucator.Skip(1).Select(c => c.Valoare))
+                // {
+                //     if (valoare - 1 != valoarePrecedenta){
+                //         return false;
+                //     }
+
+                // }
+                // return true;
+
+                // Straight	>> numere consecutive si sa nu fie royal sau straight flush
+
             }
 
-            bool isThreeOfAKind (List<CarteJoc> manaJucator)
+            bool isThreeOfAKind(List<CarteJoc> manaJucator)
             {
                 var Aparitii = numaraValorile(manaJucator);
 
                 return (Aparitii[0].Aparitii == 3) && (!isFullHouse(manaJucator));
 
-// Three of a Kind>> 3 de acelasi fel
+                // Three of a Kind>> 3 de acelasi fel
 
 
             }
 
-            bool isTwoPairs (List<CarteJoc> manaJucator)
+            bool isTwoPairs(List<CarteJoc> manaJucator)
             {
                 var Aparitii = numaraValorile(manaJucator);
 
                 return (Aparitii[0].Aparitii == 2) && (Aparitii[1].Aparitii == 2);
 
 
-// Two Pair	>> 2 perechi
+                // Two Pair	>> 2 perechi
 
             }
 
-            bool isJacksOrBetter (List<CarteJoc> manaJucator)
+            bool isJacksOrBetter(List<CarteJoc> manaJucator)
             {
                 var Aparitii = numaraValorile(manaJucator);
 
                 return (Aparitii[0].Aparitii == 2) && (Aparitii[0].Valoare >= 11) && (!isTwoPairs(manaJucator));
 
-// Jacks or Better>> 1 pereche de la valet in sus
+                // Jacks or Better>> 1 pereche de la valet in sus
 
             }
 
+            System.Console.WriteLine("Noua mana este:");
+            AfiseazaMana(manaJucator);
 
-/*
-            System.Console.WriteLine("Cartile de joc sunt:");
-
-            foreach (var carte in pachetAmestecat)
+            if (isRoyalFlush(manaJucator))
             {
-                System.Console.Write($"{carte.Nume}");
-                if (carte.Culoare == "inima rosie")
+                System.Console.WriteLine("Ai prins chinta roiala mare");
+            }
+            else if (isStraightFlush(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins chinta roiala");
+            }
+            else if (isFourOfAKind(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins careu");
+            }
+            else if (isFullHouse(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins full");
+            }
+            else if (isFlush(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins culoare");
+            }
+            else if (isStraight(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins chinta");
+            }
+            else if (isThreeOfAKind(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins trei bucati");
+            }
+            else if (isTwoPairs(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins doua perechi");
+            }
+            else if (isJacksOrBetter(manaJucator))
+            {
+                System.Console.WriteLine("Ai prins o pereche");
+            }
+            else
+            {
+                System.Console.WriteLine("Nu ai prins nimic.");
+            }
+
+            void AfiseazaMana(List<CarteJoc> manaJucator)
+            {
+                foreach (var carte in manaJucator)
                 {
-                    arataInima();
+                    System.Console.Write($"{carte.Nume}");
+                    if (carte.Culoare == "inima rosie")
+                    {
+                        arataInima();
+                    }
+                    else if (carte.Culoare == "romb")
+                    {
+                        arataRomb();
+                    }
+                    else if (carte.Culoare == "trefla")
+                    {
+                        arataTrefla();
+                    }
+                    else
+                    {
+                        arataNeagra();
+                    }
+                    System.Console.WriteLine();
                 }
-                else if (carte.Culoare == "romb")
-                {
-                    arataRomb();
-                }
-                else if (carte.Culoare == "trefla")
-                {
-                    arataTrefla();
-                }    
-                else 
-                {
-                    arataNeagra();
-                }        
-                System.Console.WriteLine();
-            }*/
+            }
+
+            /*
+                        System.Console.WriteLine("Cartile de joc sunt:");
+
+                        foreach (var carte in pachetAmestecat)
+                        {
+                            System.Console.Write($"{carte.Nume}");
+                            if (carte.Culoare == "inima rosie")
+                            {
+                                arataInima();
+                            }
+                            else if (carte.Culoare == "romb")
+                            {
+                                arataRomb();
+                            }
+                            else if (carte.Culoare == "trefla")
+                            {
+                                arataTrefla();
+                            }    
+                            else 
+                            {
+                                arataNeagra();
+                            }        
+                            System.Console.WriteLine();
+                        }*/
         }
 
     }
